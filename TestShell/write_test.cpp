@@ -3,16 +3,18 @@
 #include "TestShell.h"
 using namespace testing;
 
-TEST(WriteTest, NormalWritePass) {
+class WriteFixture : public Test {
+public:
 	MockDriver mockdriver;
-	EXPECT_CALL(mockdriver, write(3, 0xAAAABBBB)).Times(1);
 	TestShell testshell{ &mockdriver };
+};
+
+TEST_F(WriteFixture, NormalWritePass) {
+	EXPECT_CALL(mockdriver, write(3, 0xAAAABBBB)).Times(1);
 	testshell.write(3, 0xAAAABBBB);
 }
-TEST(WriteTest, AddressRangeOverFail) {
-	MockDriver mockdriver;
+TEST_F(WriteFixture, AddressRangeOverFail) {
 	EXPECT_CALL(mockdriver, write(_,_)).Times(0);
-	TestShell testshell{ &mockdriver };
 	EXPECT_THROW(testshell.write(testshell.ADDRESS_RANGE_MAX + 1, 0xAAAABBBB), std::exception);
 	EXPECT_THROW(testshell.write(testshell.ADDRESS_RANGE_MIN - 1, 0xAAAABBBB), std::exception);
 }
