@@ -3,7 +3,7 @@
 class TestShell {
 public:
 	TestShell(IDriver* driver_);
-	bool read(int address);
+	bool read(std::vector<int> address);
 	bool fullread();
 
 	void help();
