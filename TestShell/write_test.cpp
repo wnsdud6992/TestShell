@@ -15,6 +15,7 @@ public:
 	std::vector<unsigned int> normal_param = { NORMAL_ADDRESS,NORMAL_DATA };
 	std::vector<unsigned int> range_over_param = { RANGE_OVER_ADDRESS,NORMAL_DATA };
 	std::vector<unsigned int> range_under_param = { RANGE_OVER_ADDRESS,NORMAL_DATA };
+	std::vector<unsigned int> data_missing_param = { RANGE_OVER_ADDRESS };
 };
 
 TEST_F(WriteFixture, NormalWritePass) {
@@ -25,4 +26,8 @@ TEST_F(WriteFixture, AddressRangeFail) {
 	EXPECT_CALL(mockdriver, write(_,_)).Times(0);
 	EXPECT_THROW(testshell.write(range_over_param), std::exception);
 	EXPECT_THROW(testshell.write(range_under_param), std::exception);
+}
+TEST_F(WriteFixture, InvaildCommandFail) {
+	EXPECT_CALL(mockdriver, write(_, _)).Times(0);
+	EXPECT_THROW(testshell.write(data_missing_param), std::exception);
 }

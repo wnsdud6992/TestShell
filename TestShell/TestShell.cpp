@@ -2,9 +2,14 @@
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 void TestShell::write(std::vector<unsigned int> command_param){
+    if (command_param.size() < 2) {
+        throw std::exception("command parameter missing");
+        return;
+    }
 
     int address = command_param[0];
     int data = command_param[1];
+
 
 	if (address < ADDRESS_RANGE_MIN || address > ADDRESS_RANGE_MAX) {
 		throw std::exception("address range over");
