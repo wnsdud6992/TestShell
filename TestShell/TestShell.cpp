@@ -25,3 +25,8 @@ void TestShell::help() {
 
     std::cout << std::endl;
 }
+std::pair<std::string, std::vector<int>> TestShell::parameterParsing(std::string param) {
+    std::vector<int> rslt;
+    return {"aa", rslt };
+
+}
