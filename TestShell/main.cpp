@@ -1,7 +1,4 @@
-#include <gmock/gmock.h>
-#include <iostream>
-#include <string>
-#include <memory>
+
 
 #include "TestShell.h"
 #include "SSDDriver.h"
@@ -26,9 +23,10 @@ int main() {
         else if (userInput == "µ¿ÀÛ2") {
         }
         else if (userInput == "help") {
-            break;
+            testShell->help();
         }
         else if (userInput == "exit") {
+            std::cout << "Thank you and bye~";
             break;
         }
         else {
