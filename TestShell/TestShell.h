@@ -3,6 +3,8 @@
 class TestShell {
 public:
 	TestShell(IDriver* driver_);
+	bool read(int address);
+	bool fullread();
 
 	void help();
 
