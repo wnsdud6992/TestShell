@@ -31,8 +31,13 @@ std::pair<std::string, std::vector<int>> TestShell::parameterParsing(std::string
     return { "aa", rslt };
 }
 
-bool TestShell::read(int address) {
-    unsigned int value = driver->read(address);
+bool TestShell::read(std::vector<int> address) {
+    if (address.size() != 1)
+        std::cerr << "INVALID COMMAND \n";
+    if (address[0] < 0 || address[0] > 99)
+        std::cerr << "INVALID COMMAND \n";
+
+    unsigned int value = driver->read(address[0]);
     return true;
 }
 
