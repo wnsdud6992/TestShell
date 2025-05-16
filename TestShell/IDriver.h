@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include <memory>
 
 class IDriver {

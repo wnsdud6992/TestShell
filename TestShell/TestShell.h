@@ -6,6 +6,8 @@ public:
 
 	void help();
 
+	std::pair<std::string, std::vector<int>> parameterParsing(std::string param);
+
 private:
 	IDriver* driver;
 };
