@@ -5,5 +5,5 @@
 class MockDriver : public IDriver {
 public:
 	MOCK_METHOD(void, write, (int, int), (override));
-	MOCK_METHOD(int, read, (int), (override));
+	MOCK_METHOD(unsigned int, read, (int), (override));
 };
