@@ -2,8 +2,8 @@
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 void TestShell::write(std::vector<unsigned int> command_param){
-    if (command_param.size() < 2) {
-        throw std::exception("command parameter missing");
+    if (command_param.size() != 2) {
+        throw std::exception("write command argument error");
         return;
     }
 
