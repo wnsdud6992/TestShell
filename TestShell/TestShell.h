@@ -7,7 +7,7 @@ public:
 	const int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_);
-	void write(int address, int data);
+	void write(std::vector<unsigned int> command_param);
 
 	void help();
 
