@@ -7,7 +7,7 @@ TEST(ReadTest, ReadSuccess) {
 	MockDriver mockdriver;
 	TestShell testshell{ &mockdriver };
 	EXPECT_CALL(mockdriver, read(20)).Times(1);
-	EXPECT_TRUE(testshell.read(20));
+	EXPECT_TRUE(testshell.read({ 20 }));
 }
 
 TEST(FullreadTest, FullreadSuccess) {

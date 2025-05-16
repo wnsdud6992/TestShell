@@ -31,7 +31,7 @@ std::pair<std::string, std::vector<int>> TestShell::parameterParsing(std::string
     return { "aa", rslt };
 }
 
-bool TestShell::read(std::vector<int> address) {
+bool TestShell::read(std::vector<unsigned int> address) {
     if (address.size() != 1)
         std::cerr << "INVALID COMMAND \n";
     if (address[0] < 0 || address[0] > 99)
@@ -44,7 +44,7 @@ bool TestShell::read(std::vector<int> address) {
 bool TestShell::fullread() {
     std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
-    for (int lba = 0; lba < 100; ++lba) {
+    for (unsigned int lba = 0; lba < 100; ++lba) {
         uint32_t value = driver->read(lba);
         std::cout << "LBA " << lba << " : 0x"
             << std::hex << value << std::dec << " (" << value << ")\n";
