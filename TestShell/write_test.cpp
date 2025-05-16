@@ -13,5 +13,6 @@ TEST(WriteTest, AddressRangeOverFail) {
 	MockDriver mockdriver;
 	EXPECT_CALL(mockdriver, write(_,_)).Times(0);
 	TestShell testshell{ &mockdriver };
-	testshell.write(100, 0xAAAABBBB);
+	EXPECT_THROW(testshell.write(testshell.ADDRESS_RANGE_MAX + 1, 0xAAAABBBB), std::exception);
+	EXPECT_THROW(testshell.write(testshell.ADDRESS_RANGE_MIN - 1, 0xAAAABBBB), std::exception);
 }
