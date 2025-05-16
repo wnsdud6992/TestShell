@@ -1,7 +1,4 @@
-#include <gmock/gmock.h>
-#include <iostream>
-#include <string>
-#include <memory>
+
 
 #include "TestShell.h"
 #include "SSDDriver.h"
@@ -21,14 +18,17 @@ int main() {
         std::cout << "Shell> "; 
         std::getline(std::cin, userInput);
 
-        if (userInput == "동작1") {
+        auto [command, parameter] = testShell->parameterParsing(userInput);
+
+        if (command == "write") {
         }
-        else if (userInput == "동작2") {
+        else if (command == "read") {
         }
-        else if (userInput == "help") {
-            break;
+        else if (command == "help") {
+            testShell->help();
         }
-        else if (userInput == "exit") {
+        else if (command == "exit") {
+            std::cout << "Thank you and bye~";
             break;
         }
         else {
