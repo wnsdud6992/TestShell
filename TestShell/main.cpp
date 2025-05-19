@@ -15,25 +15,27 @@ int main() {
     std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo 추후 factory화 하여 사용자로부터 입력받은 driver로 실행
     std::string userInput;
     while (true) {
-        std::cout << "Shell> "; 
-        std::getline(std::cin, userInput);
+        std::cout << "Shell> ";
+        try {
+            std::getline(std::cin, userInput);
 
-        auto [command, parameter] = testShell->parameterParsing(userInput);
+            auto [command, parameter] = testShell->parameterParsing(userInput);
 
-        if (command == "write") {
-            testShell->write(parameter);
+            if (command == "write") {
+                testShell->write(parameter);
+            }
+            else if (command == "read") {
+            }
+            else if (command == "help") {
+                testShell->help();
+            }
+            else if (command == "exit") {
+                std::cout << "Thank you and bye~";
+                break;
+            }
         }
-        else if (command == "read") {
-        }
-        else if (command == "help") {
-            testShell->help();
-        }
-        else if (command == "exit") {
-            std::cout << "Thank you and bye~";
-            break;
-        }
-        else {
-            std::cout << "Unknown command. Please try again." << std::endl;
+        catch (const CustomException& e) {
+            std::cout << e.what() << std::endl;
         }
     }
     return 0;

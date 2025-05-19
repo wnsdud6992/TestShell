@@ -2,6 +2,7 @@
 #include <iostream>
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
+
 void TestShell::write(std::vector<unsigned int> command_param){
     if (command_param.size() != 2) {
         throw std::exception("write command argument error");
@@ -50,28 +51,33 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
         }
     }
     if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
-        throw CustomException("Invalid Command");
+        throw CustomException("INVALID COMMAND");
     }
     return { command, parameter };
 }
 
-bool TestShell::read(std::vector<unsigned int> address) {
+unsigned int TestShell::read(std::vector<unsigned int> address) {
     if (address.size() != 1)
         std::cerr << "INVALID COMMAND \n";
     if (address[0] < 0 || address[0] > 99)
         std::cerr << "INVALID COMMAND \n";
 
-    unsigned int value = driver->read(address[0]);
-    return true;
+    return driver->read(address[0]);
 }
 
-bool TestShell::fullread() {
+std::vector<unsigned int> TestShell::fullread() {
+    std::vector<unsigned int> readDataList;
     std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
-        unsigned int value = driver->read(lba);
+        readDataList.push_back(driver->read(lba));
         std::cout << "LBA " << lba << " : 0x"
-            << std::hex << value << std::dec << " (" << value << ")\n";
+            << std::hex << readDataList[lba] << std::dec << " (" << readDataList[lba] << ")\n";
     }
-    return true;
+    return readDataList;
+}
+
+bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int value) {
+    int readData = read(address);
+    return readData == value;
 }
