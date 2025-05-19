@@ -11,6 +11,7 @@ public:
 	void fullwrite(std::vector<unsigned int> command_param);
 	bool read(std::vector<unsigned int> address);
 	bool fullread();
+	bool Script3();
 
 	void help();
 

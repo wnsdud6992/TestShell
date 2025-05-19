@@ -29,7 +29,7 @@ TEST_F(WriteFixture, InvaildCommandFail) {
 }
 TEST_F(WriteFixture, FullWritePass) {
 	//Check write command cycle
-	for (int address_index = 0; address_index <= MAX_LBA; address_index++) {
+	for (unsigned int address_index = 0; address_index <= MAX_LBA; address_index++) {
 		EXPECT_CALL(mockdriver, write(address_index, NORMAL_DATA)).Times(1);
 	}
 	testshell.fullwrite(NORMAL_DATA_COMMAND);

@@ -32,6 +32,9 @@ int main() {
         else if (command == "fullread") {
             testShell->fullread();
         }
+        else if (command == "3_WriteReadAging" || command == "3_") {
+            writereadAging();
+        }
         else if (command == "help") {
             testShell->help();
         }

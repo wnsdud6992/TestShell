@@ -84,3 +84,22 @@ bool TestShell::fullread() {
     }
     return true;
 }
+
+bool TestShell::Script3(){
+    unsigned int data_firstLBA;
+    unsigned int data_lastLBA;
+    int loop = 200;
+    while (loop--) {
+        srand(RAND_SEED);
+        unsigned int random_number = (std::rand() << 16) | std::rand();
+        driver->write(0, random_number);
+        driver->write(99, random_number);
+
+        data_firstLBA = driver->read(0);
+        data_lastLBA = driver->read(99);
+
+        if (!(data_firstLBA == random_number && data_lastLBA == random_number))
+            return false;
+    }
+    return true;
+}
