@@ -1,4 +1,5 @@
 #include "TestShell.h"
+#include <iostream>
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 
@@ -27,6 +28,26 @@ void TestShell::help() {
 }
 std::pair<std::string, std::vector<int>> TestShell::parameterParsing(std::string param) {
     std::vector<int> rslt;
-    return {"aa", rslt };
+    return { "aa", rslt };
+}
 
+bool TestShell::read(std::vector<unsigned int> address) {
+    if (address.size() != 1)
+        std::cerr << "INVALID COMMAND \n";
+    if (address[0] < 0 || address[0] > 99)
+        std::cerr << "INVALID COMMAND \n";
+
+    unsigned int value = driver->read(address[0]);
+    return true;
+}
+
+bool TestShell::fullread() {
+    std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
+
+    for (unsigned int lba = 0; lba < 100; ++lba) {
+        unsigned int value = driver->read(lba);
+        std::cout << "LBA " << lba << " : 0x"
+            << std::hex << value << std::dec << " (" << value << ")\n";
+    }
+    return true;
 }
