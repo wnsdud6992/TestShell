@@ -13,6 +13,17 @@ void TestShell::write(std::vector<unsigned int> command_param){
 	driver->write(address, data);
 }
 
+void TestShell::fullwrite(std::vector<unsigned int> command_param) {
+    if (command_param.size() != 1) {
+        throw std::exception("write command argument error");
+        return;
+    }
+
+    unsigned int data = command_param[0];
+    for(int address_index = 0 ; address_index < 100; address_index++){
+        driver->write(address_index, data);
+    }
+}
 
 void TestShell::help() {
     std::cout << "\nÆÀ¸í : Critical Coders\n";
