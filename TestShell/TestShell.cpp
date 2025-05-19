@@ -91,31 +91,6 @@ std::vector<unsigned int> TestShell::fullread() {
 return readDataList;
 }
 
-void TestShell::runPartialLbaWriteTest() {
-    const unsigned int ADDRESS[5] = { 4, 0, 3, 1, 2 };
-    const unsigned int DATA[5] = {
-        0x1234ABCD,
-        0xAAAABBBB,
-        0xCAFEBABE,
-        0xFEEDFACE,
-        0xBADC0FFE
-    };
-    std::map<unsigned int, unsigned int> LBA_MAP;
-    MockDriver mockdriver;
-    TestShell testshell{ &mockdriver };
-
-    for (int idx = 0; idx < 5; ++idx) {
-        LBA_MAP[ADDRESS[idx]] = DATA[idx];
-        EXPECT_CALL(mockdriver, write(ADDRESS[idx], DATA[idx])).Times(1);
-        testshell.write({ ADDRESS[idx], DATA[idx] });
-    }
-
-    for (int idx = 0; idx < 5; ++idx) {
-        EXPECT_CALL(mockdriver, read(ADDRESS[idx])).Times(1).WillOnce(Return(LBA_MAP[ADDRESS[idx]]));
-        EXPECT_EQ(testshell.read({ ADDRESS[idx] }), LBA_MAP[ADDRESS[idx]]);
-    }
-}
-
 bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int value) {
     int readData = read(address);
     return readData == value;
@@ -137,6 +112,27 @@ void TestShell::Script1() {
         }
     }
     std::cout << "PASS" << std::endl;
+}
+
+void TestShell::Script2() {
+    for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (int idx = 0; idx < 5; ++idx) {
+            unsigned int address = Script2_Address[idx];    
+            writeWithNewParam(address, data);
+        }
+
+        for (unsigned int address = 0; address < 5; ++address) {
+            unsigned int expectedValue = data;
+            unsigned int actualValue = readWithNewParam(address);
+            if (actualValue != expectedValue) {
+                std::cout << "FAIL";
+                return;
+            }
+        }
+        std::cout << "PASS" << std::endl;
+    }
 }
 
 void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){

@@ -39,7 +39,8 @@ int main() {
                 break;
             }
             else if (command == "2_PartialLBAWrite" || command == "2_") {
-                testShell->runPartialLbaWriteTest();
+                testShell->Script2();
+                std::cout << "Thank you and bye~";
             }
             else {
                 std::cout << "Unknown command. Please try again." << std::endl;

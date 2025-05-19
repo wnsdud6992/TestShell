@@ -15,9 +15,9 @@ public:
 	void help();
 
 	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string &param);
-	void runPartialLbaWriteTest();
 	bool readCompare(std::vector<unsigned int >address, unsigned int value);
 	void Script1();
+	void Script2();
 
 private:
 	IDriver* driver;
