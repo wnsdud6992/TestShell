@@ -4,7 +4,7 @@
 #include <vector>
 using namespace testing;
 
-TEST(Script2, NormalPass) {
+TEST(Script3WriteReadAging, NormalPass) {
 	MockDriver mockdriver;
 	TestShell testshell{ &mockdriver };
 	srand(RAND_SEED);

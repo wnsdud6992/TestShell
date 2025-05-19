@@ -129,8 +129,6 @@ bool TestShell::readCompareFive(int loopCnt) {
 }
 
 bool TestShell::Script3(){
-    unsigned int data_firstLBA;
-    unsigned int data_lastLBA;
     int loop = 200;
     while (loop--) {
         srand(RAND_SEED);
@@ -138,10 +136,10 @@ bool TestShell::Script3(){
         driver->write(0, random_number);
         driver->write(99, random_number);
 
-        data_firstLBA = driver->read(0);
-        data_lastLBA = driver->read(99);
+        std::vector<unsigned int> fistLBA{ 0 };
+        std::vector<unsigned int> lastLBA{ 99 };
 
-        if (!(data_firstLBA == random_number && data_lastLBA == random_number))
+        if (!(readCompare(fistLBA, random_number) && readCompare(lastLBA, random_number)))
             return false;
     }
     return true;
