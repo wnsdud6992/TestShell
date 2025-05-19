@@ -6,7 +6,6 @@ int main() {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
     return RUN_ALL_TESTS();
-
 #else  
     std::cout << "Welcome to Critical Coders's Test Shell!!" << std::endl << std::endl;
     std::cout << "What kind of driver do you want to test?" << std::endl;
@@ -51,5 +50,6 @@ int main() {
         }
     }
     return 0;
-}
 #endif
+}
+

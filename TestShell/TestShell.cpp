@@ -114,7 +114,7 @@ void TestShell::Script1() {
     std::cout << "PASS" << std::endl;
 }
 
-void TestShell::Script2() {
+bool TestShell::Script2() {
     for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
 
@@ -125,14 +125,16 @@ void TestShell::Script2() {
 
         for (unsigned int address = 0; address < 5; ++address) {
             unsigned int expectedValue = data;
-            unsigned int actualValue = readWithNewParam(address);
-            if (actualValue != expectedValue) {
-                std::cout << "FAIL";
-                return;
+            if (readCompare({ address }, expectedValue)) {
+                std::cout << "PASS" << std::endl;
+            }
+            else {
+                std::cout << "FAIL " << loopCnt;
+                return false;
             }
         }
-        std::cout << "PASS" << std::endl;
     }
+    return true;
 }
 
 void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
