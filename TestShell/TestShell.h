@@ -14,6 +14,7 @@ public:
 	void help();
 
 	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string &param);
+	void runPartialLbaWriteTest();
 
 private:
 	IDriver* driver;

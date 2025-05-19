@@ -133,7 +133,6 @@
     <ClCompile Include="parsing_test.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="partiallbawrite_test.cpp" />
     <ClCompile Include="read_test.cpp" />
     <ClCompile Include="SSDDriver.cpp" />
     <ClCompile Include="write_test.cpp" />

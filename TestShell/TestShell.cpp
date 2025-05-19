@@ -1,5 +1,9 @@
 #include "TestShell.h"
+#include "MockDriver.h"
+#include "gmock/gmock.h"
 #include <iostream>
+
+using namespace testing;
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 void TestShell::write(std::vector<unsigned int> command_param){
@@ -73,4 +77,29 @@ bool TestShell::fullread() {
             << std::hex << value << std::dec << " (" << value << ")\n";
     }
     return true;
+}
+
+void TestShell::runPartialLbaWriteTest() {
+    const unsigned int ADDRESS[5] = { 4, 0, 3, 1, 2 };
+    const unsigned int DATA[5] = {
+        0x1234ABCD,
+        0xAAAABBBB,
+        0xCAFEBABE,
+        0xFEEDFACE,
+        0xBADC0FFE
+    };
+    std::map<unsigned int, unsigned int> LBA_MAP;
+    MockDriver mockdriver;
+    TestShell testshell{ &mockdriver };
+
+    for (int idx = 0; idx < 5; ++idx) {
+        LBA_MAP[ADDRESS[idx]] = DATA[idx];
+        EXPECT_CALL(mockdriver, write(ADDRESS[idx], DATA[idx])).Times(1);
+        testshell.write({ ADDRESS[idx], DATA[idx] });
+    }
+
+    for (int idx = 0; idx < 5; ++idx) {
+        EXPECT_CALL(mockdriver, read(ADDRESS[idx])).Times(1).WillOnce(Return(LBA_MAP[ADDRESS[idx]]));
+        EXPECT_EQ(testshell.read({ ADDRESS[idx] }), LBA_MAP[ADDRESS[idx]]);
+    }
 }
