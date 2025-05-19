@@ -17,3 +17,16 @@ TEST(Script3WriteReadAging, NormalPass) {
 	EXPECT_TRUE(testshell.Script3());
 
 }
+
+TEST(Script3WriteReadAging, NotSameReadFail) {
+	MockDriver mockdriver;
+	TestShell testshell{ &mockdriver };
+	srand(RAND_SEED);
+	unsigned int random_number = (std::rand() << 16) | std::rand();
+	EXPECT_CALL(mockdriver, write(testshell.ADDRESS_RANGE_MIN, random_number)).Times(1);
+	EXPECT_CALL(mockdriver, write(testshell.ADDRESS_RANGE_MAX, random_number)).Times(1);
+	EXPECT_CALL(mockdriver, read(testshell.ADDRESS_RANGE_MIN)).Times(1).WillRepeatedly(Return(0));
+	
+	EXPECT_FALSE(testshell.Script3());
+
+}
