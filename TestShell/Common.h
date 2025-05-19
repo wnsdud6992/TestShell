@@ -11,5 +11,5 @@ public:
 };
 
 inline std::vector<std::string> validCommands = {
-    "write", "read", "exit", "help", "fullwrite", "fullread"
+    "write", "read", "exit", "help", "fullwrite", "fullread", "2_PartialLBAWrite", "2_"
 };
