@@ -17,6 +17,11 @@ public:
 	bool readCompare(std::vector<unsigned int >address, unsigned int value);
 	void Script1();
 
+	
+
 private:
 	IDriver* driver;
+
+	void writeWithNewParam(unsigned int address, unsigned int writevalue);
+	unsigned int readWithNewParam(unsigned int address);
 };
