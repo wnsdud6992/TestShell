@@ -36,5 +36,8 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
             parameter.push_back(std::stoul(token, nullptr, 0));
         }
     }
+    if (command != "write" && command != "read" && command != "exit" && command != "help" && command != "fullwrite" && command != "fullread") {
+        throw CustomException("Invalid Command");
+    }
     return { command, parameter };
 }

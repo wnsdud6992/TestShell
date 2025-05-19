@@ -26,3 +26,7 @@ TEST_F(ParsingFixture, TestWrite) {
 	EXPECT_EQ(static_cast<unsigned int>(0x1289CDEF), param[1]);
 }
 
+
+TEST_F(ParsingFixture, InvalidCommand) {
+	EXPECT_THROW(testshell.parameterParsing(InvalidCommandStr), CustomException);
+}
