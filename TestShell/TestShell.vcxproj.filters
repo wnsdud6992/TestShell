@@ -33,11 +33,17 @@
     <ClCompile Include="parsing_test.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="write_test.cpp">
+		<Filter>test</Filter>
+	</ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="read_test.cpp">
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
