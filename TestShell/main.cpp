@@ -21,6 +21,7 @@ int main() {
         auto [command, parameter] = testShell->parameterParsing(userInput);
 
         if (command == "write") {
+            testShell->write(parameter);
         }
         else if (command == "read") {
         }

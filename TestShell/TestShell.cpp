@@ -2,6 +2,17 @@
 #include <iostream>
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
+void TestShell::write(std::vector<unsigned int> command_param){
+    if (command_param.size() != 2) {
+        throw std::exception("write command argument error");
+        return;
+    }
+
+    unsigned int address = command_param[0];
+    unsigned int data = command_param[1];
+	driver->write(address, data);
+}
+
 
 void TestShell::help() {
     std::cout << "\nÆÀ¸í : Critical Coders\n";
