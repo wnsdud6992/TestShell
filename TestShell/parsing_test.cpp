@@ -3,20 +3,24 @@
 #include "TestShell.h"
 using namespace testing;
 
-TEST(ParsingTest, TestRead) {
+class ParsingFixture : public Test {
+public:
 	MockDriver mockdriver;
 	TestShell testshell{ &mockdriver };
-	std::string testStr = "read 20 ";
-	auto [cmd, param] = testshell.parameterParsing(testStr);
+	std::string ReadStr = "read 20";
+	std::string WriteStr = "write 3 0x1289CDEF";
+	std::string InvalidCommandStr = "wrote 3 0x1289CDEF";
+	
+};
+
+TEST_F(ParsingFixture, TestRead) {	
+	auto [cmd, param] = testshell.parameterParsing(ReadStr);
 	EXPECT_EQ("read", cmd);
 	EXPECT_EQ(20, param[0]);
 }
 
-TEST(ParsingTest, TestWrite) {
-	MockDriver mockdriver;
-	TestShell testshell{ &mockdriver };
-	std::string testStr = "write 3 0x1289CDEF";
-	auto [cmd, param] =testshell.parameterParsing(testStr);
+TEST_F(ParsingFixture, TestWrite) {
+	auto [cmd, param] =testshell.parameterParsing(WriteStr);
 	EXPECT_EQ("write", cmd);
 	EXPECT_EQ(3, param[0]);
 	EXPECT_EQ(static_cast<unsigned int>(0x1289CDEF), param[1]);
