@@ -37,9 +37,22 @@ void TestShell::help() {
 
     std::cout << std::endl;
 }
-std::pair<std::string, std::vector<int>> TestShell::parameterParsing(std::string param) {
-    std::vector<int> rslt;
-    return { "aa", rslt };
+
+std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string & param) {
+    std::vector<unsigned int> parameter;
+    std::string command;
+    std::istringstream iss(param);
+
+    if (iss >> command) {
+        std::string token;
+        while (iss >> token) {
+            parameter.push_back(std::stoul(token, nullptr, 0));
+        }
+    }
+    if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
+        throw CustomException("Invalid Command");
+    }
+    return { command, parameter };
 }
 
 bool TestShell::read(std::vector<unsigned int> address) {
