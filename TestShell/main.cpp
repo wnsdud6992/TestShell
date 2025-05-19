@@ -6,7 +6,6 @@ int main() {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
     return RUN_ALL_TESTS();
-
 #else  
     std::cout << "Welcome to Critical Coders's Test Shell!!" << std::endl << std::endl;
     std::cout << "What kind of driver do you want to test?" << std::endl;
@@ -38,6 +37,13 @@ int main() {
                 std::cout << "Thank you and bye~";
                 break;
             }
+            else if (command == "2_PartialLBAWrite" || command == "2_") {
+                testShell->Script2();
+                std::cout << "Thank you and bye~";
+            }
+            else {
+                std::cout << "Unknown command. Please try again." << std::endl;
+            }
         }
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;
@@ -46,3 +52,4 @@ int main() {
     return 0;
 #endif
 }
+
