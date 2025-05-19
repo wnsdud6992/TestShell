@@ -11,7 +11,7 @@ public:
 };
 
 inline std::vector<std::string> validCommands = {
-    "write", "read", "exit", "help", "fullwrite", "fullread"
+    "write", "read", "exit", "help", "fullwrite", "fullread", "1_", "1_FullWriteAndReadCompare", "2_", "2_PartialLBAWrite", "3_", "3_WriteReadAging"
 };
 
 constexpr int Script1_TotalLoopCount = 20;

@@ -22,9 +22,12 @@ int main() {
             auto [command, parameter] = testShell->parameterParsing(userInput);
 
             if (command == "write") {
-                testShell->write(parameter);
+                auto [address, data] = testShell->CheckWriteParamValid(parameter);
+                testShell->write(address, data);
             }
             else if (command == "read") {
+                unsigned int address = testShell->CheckReadParamValid(parameter);
+                testShell->read(address);
             }
             else if (command == "help") {
                 testShell->help();
@@ -33,9 +36,25 @@ int main() {
                 std::cout << "Thank you and bye~";
                 break;
             }
+            else if (command == "fullwrite") {
+                unsigned int data = testShell->CheckFullWriteParamValid(parameter);
+                testShell->fullwrite(data);
+                break;
+            }
+            else if (command == "fullread") {
+                testShell->fullread();
+                break;
+            }
             else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
                 testShell->Script1();
-                std::cout << "Thank you and bye~";
+                break;
+            }
+            else if (command == "2_PartialLBAWrite" || command == "2_") {
+                // testShell->Script2();
+                break;
+            }
+            else if (command == "3_WriteReadAging" || command == "3_") {
+                // testShell->Script3();
                 break;
             }
         }
