@@ -23,13 +23,13 @@ TEST_F(WriteFixture, NormalWritePass) {
 }
 TEST_F(WriteFixture, InvaildCommandFail) {
 	EXPECT_CALL(mockdriver, write(_, _)).Times(0);
-	EXPECT_THROW(testshell.write(arg_missing_param), std::exception);
-	EXPECT_THROW(testshell.write(arg_over_param), std::exception);
-	EXPECT_THROW(testshell.fullwrite(normal_param), std::exception);
+	EXPECT_THROW(testshell.write(arg_missing_param), CustomException);
+	EXPECT_THROW(testshell.write(arg_over_param), CustomException);
+	EXPECT_THROW(testshell.fullwrite(normal_param), CustomException);
 }
 TEST_F(WriteFixture, FullWritePass) {
 	//Check write command cycle
-	for (int address_index = 0; address_index <= MAX_LBA; address_index++) {
+	for (unsigned int address_index = 0; address_index <= MAX_LBA; address_index++) {
 		EXPECT_CALL(mockdriver, write(address_index, NORMAL_DATA)).Times(1);
 	}
 	testshell.fullwrite(NORMAL_DATA_COMMAND);

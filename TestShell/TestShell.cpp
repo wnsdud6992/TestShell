@@ -10,7 +10,7 @@ TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 
 void TestShell::write(std::vector<unsigned int> command_param){
     if (command_param.size() != 2) {
-        throw std::exception("write command argument error");
+        throw CustomException("write command argument error");
     }
 
     const unsigned int address = command_param[0];
@@ -20,7 +20,7 @@ void TestShell::write(std::vector<unsigned int> command_param){
 
 void TestShell::fullwrite(std::vector<unsigned int> command_param) {
     if (command_param.size() != 1) {
-        throw std::exception("write command argument error");
+        throw CustomException("write command argument error");
     }
 
     const unsigned int data = command_param[0];
@@ -125,6 +125,21 @@ bool TestShell::Script2() {
                 return false;
             }
         }
+    }
+    return true;
+}
+
+bool TestShell::Script3(){
+    for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
+        srand(RAND_SEED);
+        unsigned int randomData = (std::rand() << 16) | std::rand();
+        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(99, randomData);
+        std::vector<unsigned int> firstAddressVector{ TestShell::ADDRESS_RANGE_MIN };
+        std::vector<unsigned int> lastAddressVector{ TestShell::ADDRESS_RANGE_MAX };
+
+        if (!(readCompare(firstAddressVector, randomData) && readCompare(lastAddressVector, randomData)))
+            return false;
     }
     return true;
 }
