@@ -88,7 +88,7 @@ std::vector<unsigned int> TestShell::fullread() {
         std::cout << "LBA " << lba << " : 0x"
             << std::hex << readDataList[lba] << std::dec << " (" << readDataList[lba] << ")\n";
     }
-return readDataList;
+    return readDataList;
 }
 
 bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int value) {
