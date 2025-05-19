@@ -4,6 +4,10 @@
 class SSDDriver : public IDriver {
 public:
 	SSDDriver() {}
-	void write(int address, int value) override;
+	void write(unsigned int address, unsigned int value) override;
 	unsigned int read(unsigned int address) override;
+
+private:
+	void runSSDWithParam(const std::string& param);
+	unsigned int readSSDOutputFile();
 };

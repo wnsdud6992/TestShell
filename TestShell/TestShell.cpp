@@ -8,27 +8,6 @@ using namespace testing;
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 
-void TestShell::write(std::vector<unsigned int> command_param){
-    if (command_param.size() != 2) {
-        throw CustomException("write command argument error");
-    }
-
-    const unsigned int address = command_param[0];
-    const unsigned int data = command_param[1];
-	driver->write(address, data);
-}
-
-void TestShell::fullwrite(std::vector<unsigned int> command_param) {
-    if (command_param.size() != 1) {
-        throw CustomException("write command argument error");
-    }
-
-    const unsigned int data = command_param[0];
-    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
-        driver->write(address_index, data);
-    }
-}
-
 void TestShell::help() {
     std::cout << "\n팀명 : Critical Coders\n";
     std::cout << "제작자 : 최준영, 안지수, 조희성, 이아네스, 손민기, 조효진\n\n";
@@ -53,7 +32,7 @@ void TestShell::help() {
     std::cout << std::endl;
 }
 
-std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string & param) {
+std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string& param) {
     std::vector<unsigned int> parameter;
     std::string command;
     std::istringstream iss(param);
@@ -70,13 +49,41 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
     return { command, parameter };
 }
 
-unsigned int TestShell::read(std::vector<unsigned int> address) {
-    if (address.size() != 1)
-        throw CustomException("Invalid Command");;
-    if (address[0] < 0 || address[0] > 99)
-        std::cerr << "INVALID COMMAND \n";
+std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std::vector<unsigned int> &command_param) {
+    if (command_param.size() != 2) {
+        throw CustomException("write command argument error");
+    }
+    return { command_param[0], command_param[1] };
+}
 
-    return driver->read(address[0]);
+void TestShell::write(unsigned int address, unsigned int data){
+	driver->write(address, data);
+}
+
+unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>& command_param) {
+    if (command_param.size() != 1) {
+        throw CustomException("write command argument error");
+    }
+    return command_param[0];
+}
+
+void TestShell::fullwrite(unsigned int data) {
+    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+        driver->write(address_index, data);
+    }
+}
+
+unsigned int TestShell::CheckReadParamValid(const std::vector<unsigned int>& param) {
+    if (param.size() != 1)
+        throw CustomException("read command argument error");
+    if (param[0] < 0 || param[0] > 99)
+        throw CustomException("address size error");
+    return param[0];
+}
+
+
+unsigned int TestShell::read(unsigned int address) {
+    return driver->read(address);
 }
 
 std::vector<unsigned int> TestShell::fullread() {
@@ -85,15 +92,12 @@ std::vector<unsigned int> TestShell::fullread() {
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
         readDataList.push_back(driver->read(lba));
-        std::cout << "LBA " << lba << " : 0x"
-            << std::hex << readDataList[lba] << std::dec << " (" << readDataList[lba] << ")\n";
     }
     return readDataList;
 }
 
-bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int value) {
-    int readData = read(address);
-    return readData == value;
+bool TestShell::readCompare(unsigned int address, unsigned int value) {
+    return read(address) == value;
 }
 
 void TestShell::Script1() {
@@ -161,10 +165,7 @@ void TestShell::writeFive(int loopCnt){
         unsigned int address = loopCnt * iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
 
-        std::vector<unsigned int> command_param;
-        command_param.push_back(address);
-        command_param.push_back(expectedValue);
-        write(command_param);
+        write(address, expectedValue);
     }
 }
 
@@ -173,9 +174,7 @@ bool TestShell::readCompareFive(int loopCnt) {
         unsigned int address = loopCnt * iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
 
-        std::vector<unsigned int> readAddress{ address };
-        unsigned int actualValue = read(readAddress);
-        if (actualValue != expectedValue) {
+        if (read(address) != expectedValue) {
             std::cout << "FAIL";
             return false;
         }

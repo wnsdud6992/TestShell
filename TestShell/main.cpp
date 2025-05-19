@@ -11,7 +11,7 @@ int main() {
     std::cout << "What kind of driver do you want to test?" << std::endl;
     std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
     SSDDriver ssdDriver;
-    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo ÃßÈÄ factoryÈ­ ÇÏ¿© »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·Â¹ŞÀº driver·Î ½ÇÇà
+    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo ì¶”í›„ factoryí™” í•˜ì—¬ ì‚¬ìš©ìë¡œë¶€í„° ì…ë ¥ë°›ì€ driverë¡œ ì‹¤í–‰
     std::string userInput;
     while (true) {
         std::cout << "Shell> ";
@@ -21,19 +21,12 @@ int main() {
             auto [command, parameter] = testShell->parameterParsing(userInput);
 
             if (command == "write") {
-                testShell->write(parameter);
+                auto [address, data] = testShell->CheckWriteParamValid(parameter);
+                testShell->write(address, data);
             }
             else if (command == "read") {
-                testShell->read(parameter);
-            }
-            else if (command == "fullwrite") {
-                testShell->fullwrite(parameter);
-            }
-            else if (command == "fullread") {
-                testShell->fullread();
-            }
-            else if (command == "3_WriteReadAging" || command == "3_") {
-                testShell->Script3();
+              unsigned int address = testShell->CheckReadParamValid(parameter);
+              testShell->read(address);
             }
             else if (command == "help") {
                 testShell->help();
@@ -42,14 +35,26 @@ int main() {
                 std::cout << "Thank you and bye~";
                 break;
             }
+            else if (command == "fullwrite") {
+                unsigned int data = testShell->CheckFullWriteParamValid(parameter);
+                testShell->fullwrite(data);
+                break;
+            }
+            else if (command == "fullread") {
+                testShell->fullread();
+                break;
+            }
             else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
                 testShell->Script1();
-                std::cout << "Thank you and bye~";
                 break;
             }
             else if (command == "2_PartialLBAWrite" || command == "2_") {
-                testShell->Script2();
-                std::cout << "Thank you and bye~";
+                // testShell->Script2();
+                break;
+            }
+            else if (command == "3_WriteReadAging" || command == "3_") {
+                // testShell->Script3();
+                break;
             }
             else {
                 std::cout << "Unknown command. Please try again." << std::endl;
