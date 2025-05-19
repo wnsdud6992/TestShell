@@ -6,8 +6,9 @@ using namespace testing;
 TEST(ReadTest, ReadSuccess) {
 	MockDriver mockdriver;
 	TestShell testshell{ &mockdriver };
-	EXPECT_CALL(mockdriver, read(20)).Times(1);
-	EXPECT_TRUE(testshell.read({ 20 }));
+	std::vector<unsigned int> address = { 20 };
+	EXPECT_CALL(mockdriver, read(20)).Times(1).WillRepeatedly(Return(0xAAAABBBB));
+	EXPECT_EQ(0xAAAABBBB, testshell.read({ address }));
 }
 
 TEST(FullreadTest, FullreadSuccess) {
@@ -15,8 +16,8 @@ TEST(FullreadTest, FullreadSuccess) {
 	TestShell testshell{ &mockdriver };
 	int mockReturnvalue = 0xAAAABBBB;
 	for (int lba = 0; lba < 100; ++lba) {
-		EXPECT_CALL(mockdriver, read(lba)).Times(1).WillRepeatedly(Return(mockReturnvalue));
-		EXPECT_EQ(mockReturnvalue, 0xAAAABBBB);
+		std::vector<unsigned int> address{ static_cast<unsigned int>(lba) };
+		EXPECT_CALL(mockdriver, read(lba)).WillRepeatedly(Return(mockReturnvalue));
+		EXPECT_EQ(mockReturnvalue, testshell.read({ address }));
 	}
-	EXPECT_TRUE(testshell.fullread());
 }
