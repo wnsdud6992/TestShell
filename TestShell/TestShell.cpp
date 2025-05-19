@@ -1,5 +1,10 @@
-﻿#include "TestShell.h"
+#include "TestShell.h"
+#include "MockDriver.h"
+#include "gmock/gmock.h"
+
 #include <iostream>
+
+using namespace testing;
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 
@@ -76,6 +81,7 @@ unsigned int TestShell::CheckReadParamValid(const std::vector<unsigned int>& par
     return param[0];
 }
 
+
 unsigned int TestShell::read(unsigned int address) {
     return driver->read(address);
 }
@@ -104,6 +110,56 @@ void TestShell::Script1() {
     std::cout << "PASS" << std::endl;
 }
 
+bool TestShell::Script2() {
+    for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (int idx = 0; idx < 5; ++idx) {
+            unsigned int address = Script2_Address[idx];    
+            writeWithNewParam(address, data);
+        }
+
+        for (unsigned int address = 0; address < 5; ++address) {
+            unsigned int expectedValue = data;
+            if (readCompare({ address }, expectedValue)) {
+                std::cout << "PASS" << std::endl;
+            }
+            else {
+                std::cout << "FAIL " << loopCnt;
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool TestShell::Script3(){
+    for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
+        srand(RAND_SEED);
+        unsigned int randomData = (std::rand() << 16) | std::rand();
+        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(99, randomData);
+        std::vector<unsigned int> firstAddressVector{ TestShell::ADDRESS_RANGE_MIN };
+        std::vector<unsigned int> lastAddressVector{ TestShell::ADDRESS_RANGE_MAX };
+
+        if (!(readCompare(firstAddressVector, randomData) && readCompare(lastAddressVector, randomData)))
+            return false;
+    }
+    return true;
+}
+
+void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
+    std::vector<unsigned int> command_param;
+    command_param.push_back(address);
+    command_param.push_back(writevalue);
+    write(command_param);
+}
+
+unsigned int TestShell::readWithNewParam(unsigned int address) {
+    std::vector<unsigned int> readAddress{ address };
+    return read(readAddress);
+}
+
 void TestShell::writeFive(int loopCnt){
     for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
         unsigned int address = loopCnt * iter;
@@ -125,3 +181,4 @@ bool TestShell::readCompareFive(int loopCnt) {
     }
     return true;
 }
+

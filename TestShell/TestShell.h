@@ -3,14 +3,19 @@
 #include <iostream>
 class TestShell {
 public:
-	const int ADDRESS_RANGE_MIN = 0;
-	const int ADDRESS_RANGE_MAX = 99;
+	const unsigned int ADDRESS_RANGE_MIN = 0;
+	const unsigned int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_);
+  void write(std::vector<unsigned int> command_param);
+	void fullwrite(std::vector<unsigned int> command_param);
+	unsigned int read(std::vector<unsigned int> address);
+	std::vector<unsigned int> fullread();
+	bool Script3();
 	void help();
 	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string& param);
 
-	std::pair<unsigned int, unsigned int > CheckWriteParamValid(const std::vector<unsigned int>& command_param);
+  std::pair<unsigned int, unsigned int > CheckWriteParamValid(const std::vector<unsigned int>& command_param);
 	void write(unsigned int address, unsigned int data);
 	unsigned int CheckFullWriteParamValid(const std::vector<unsigned int>& command_param);
 	void fullwrite(unsigned int data);
@@ -18,8 +23,10 @@ public:
 	unsigned int CheckReadParamValid(const std::vector<unsigned int>& param);
 	unsigned int read(unsigned int address);
 	std::vector<unsigned int> fullread();
-	
-
+  std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string &param);
+	bool readCompare(std::vector<unsigned int >address, unsigned int value);
+	void Script1();
+	bool Script2();
 	bool readCompare(unsigned int address, unsigned int value);
 	void Script1();
 
@@ -27,6 +34,8 @@ public:
 private:
 	IDriver* driver;
 
+	void writeWithNewParam(unsigned int address, unsigned int writevalue);
+	unsigned int readWithNewParam(unsigned int address);
 	void writeFive(int loopCnt);
 	bool readCompareFive(int address);
 };

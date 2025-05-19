@@ -6,13 +6,12 @@ int main() {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
     return RUN_ALL_TESTS();
-
 #else  
     std::cout << "Welcome to Critical Coders's Test Shell!!" << std::endl << std::endl;
     std::cout << "What kind of driver do you want to test?" << std::endl;
     std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
     SSDDriver ssdDriver;
-    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo ÃßÈÄ factoryÈ­ ÇÏ¿© »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·Â¹ŞÀº driver·Î ½ÇÇà
+    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo ì¶”í›„ factoryí™” í•˜ì—¬ ì‚¬ìš©ìë¡œë¶€í„° ì…ë ¥ë°›ì€ driverë¡œ ì‹¤í–‰
     std::string userInput;
     while (true) {
         std::cout << "Shell> ";
@@ -26,8 +25,8 @@ int main() {
                 testShell->write(address, data);
             }
             else if (command == "read") {
-                unsigned int address = testShell->CheckReadParamValid(parameter);
-                testShell->read(address);
+              unsigned int address = testShell->CheckReadParamValid(parameter);
+              testShell->read(address);
             }
             else if (command == "help") {
                 testShell->help();
@@ -57,6 +56,9 @@ int main() {
                 // testShell->Script3();
                 break;
             }
+            else {
+                std::cout << "Unknown command. Please try again." << std::endl;
+            }
         }
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;
@@ -65,3 +67,4 @@ int main() {
     return 0;
 #endif
 }
+
