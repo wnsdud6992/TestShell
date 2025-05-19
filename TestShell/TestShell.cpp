@@ -7,8 +7,8 @@ void TestShell::write(std::vector<unsigned int> command_param){
         return;
     }
 
-    int address = command_param[0];
-    int data = command_param[1];
+    unsigned int address = command_param[0];
+    unsigned int data = command_param[1];
 	driver->write(address, data);
 }
 
