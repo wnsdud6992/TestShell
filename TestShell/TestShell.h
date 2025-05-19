@@ -8,7 +8,7 @@ public:
 
 	TestShell(IDriver* driver_);
 	void write(std::vector<unsigned int> command_param);
-	bool read(std::vector<unsigned int> address);
+	unsigned int read(std::vector<unsigned int> address);
 	bool fullread();
 
 	void help();

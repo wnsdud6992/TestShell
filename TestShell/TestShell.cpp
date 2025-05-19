@@ -55,14 +55,13 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
     return { command, parameter };
 }
 
-bool TestShell::read(std::vector<unsigned int> address) {
+unsigned int TestShell::read(std::vector<unsigned int> address) {
     if (address.size() != 1)
-        std::cerr << "INVALID COMMAND \n";
+        throw CustomException("Invalid Command");;
     if (address[0] < 0 || address[0] > 99)
         std::cerr << "INVALID COMMAND \n";
 
-    unsigned int value = driver->read(address[0]);
-    return true;
+    return driver->read(address[0]);;
 }
 
 bool TestShell::fullread() {
