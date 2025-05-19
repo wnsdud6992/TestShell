@@ -8,14 +8,20 @@ public:
 
 	TestShell(IDriver* driver_);
 	void write(std::vector<unsigned int> command_param);
+	void fullwrite(std::vector<unsigned int> command_param);
 	unsigned int read(std::vector<unsigned int> address);
-	bool fullread();
+	std::vector<unsigned int> fullread();
 
 	void help();
 
 	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string &param);
 	void runPartialLbaWriteTest();
+	bool readCompare(std::vector<unsigned int >address, unsigned int value);
+	void Script1();
 
 private:
 	IDriver* driver;
+
+	void writeWithNewParam(unsigned int address, unsigned int writevalue);
+	unsigned int readWithNewParam(unsigned int address);
 };

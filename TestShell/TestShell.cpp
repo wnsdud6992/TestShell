@@ -1,43 +1,54 @@
 #include "TestShell.h"
 #include "MockDriver.h"
 #include "gmock/gmock.h"
+
 #include <iostream>
 
 using namespace testing;
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
+
 void TestShell::write(std::vector<unsigned int> command_param){
     if (command_param.size() != 2) {
         throw std::exception("write command argument error");
-        return;
     }
 
-    unsigned int address = command_param[0];
-    unsigned int data = command_param[1];
+    const unsigned int address = command_param[0];
+    const unsigned int data = command_param[1];
 	driver->write(address, data);
 }
 
+void TestShell::fullwrite(std::vector<unsigned int> command_param) {
+    if (command_param.size() != 1) {
+        throw std::exception("write command argument error");
+    }
+
+    const unsigned int data = command_param[0];
+    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+        driver->write(address_index, data);
+    }
+}
 
 void TestShell::help() {
-    std::cout << "\nÆÀ¸í : Critical Coders\n";
-    std::cout << "Á¦ÀÛÀÚ : ÃÖÁØ¿µ, ¾ÈÁö¼ö, Á¶Èñ¼º, ÀÌ¾Æ³×½º, ¼Õ¹Î±â, Á¶È¿Áø\n\n";
+    std::cout << "\níŒ€ëª… : Critical Coders\n";
+    std::cout << "ì œì‘ì : ìµœì¤€ì˜, ì•ˆì§€ìˆ˜, ì¡°í¬ì„±, ì´ì•„ë„¤ìŠ¤, ì†ë¯¼ê¸°, ì¡°íš¨ì§„\n\n";
 
-    std::cout << "Æ¯Á¤ ¸í·É¾î¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ ³»¿ëÀÌ ÇÊ¿äÇÏ¸é HELP <¸í·É¾î ÀÌ¸§>À» ÀÔ·ÂÇÏ½Ê½Ã¿À.\n\n";
+    std::cout << "íŠ¹ì • ëª…ë ¹ì–´ì— ëŒ€í•œ ìì„¸í•œ ë‚´ìš©ì´ í•„ìš”í•˜ë©´ HELP <ëª…ë ¹ì–´ ì´ë¦„>ì„ ì…ë ¥í•˜ì‹­ì‹œì˜¤.\n\n";
 
-    std::cout << "±âº» ¸í·É¾î:\n";
+    std::cout << "ê¸°ë³¸ ëª…ë ¹ì–´:\n";
     std::cout << std::left;
-    std::cout << "  " << std::setw(20) << "Write" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
-    std::cout << "  " << std::setw(20) << "Read" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n";
-    std::cout << "  " << std::setw(20) << "fullwrite" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
-    std::cout << "  " << std::setw(20) << "fullread" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n\n";
+    std::cout << "  " << std::setw(20) << "Write" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
+    std::cout << "  " << std::setw(20) << "Read" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n";
+    std::cout << "  " << std::setw(20) << "fullwrite" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
+    std::cout << "  " << std::setw(20) << "fullread" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n\n";
 
-    std::cout << "Å×½ºÆ® ¸í·É¾î:\n";
+    std::cout << "í…ŒìŠ¤íŠ¸ ëª…ë ¹ì–´:\n";
     std::cout << "  " << std::setw(30) << "1_FullWriteAndReadCompare"
-        << "¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ¾´ µÚ ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì“´ ë’¤ ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
     std::cout << "  " << std::setw(30) << "2_PartialLBAWrite"
-        << "Æ¯Á¤ ÁÖ¼Òµé¿¡ ÀÔ·Â¹ŞÀº °ªÀ» µ¿ÀÏÇÏ°Ô ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "íŠ¹ì • ì£¼ì†Œë“¤ì— ì…ë ¥ë°›ì€ ê°’ì„ ë™ì¼í•˜ê²Œ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
     std::cout << "  " << std::setw(30) << "3_WriteReadAging"
-        << "Æ¯Á¤ ÁÖ¼Ò¿¡ ·£´ıÇÑ °ªÀ» ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "íŠ¹ì • ì£¼ì†Œì— ëœë¤í•œ ê°’ì„ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
 
     std::cout << std::endl;
 }
@@ -54,7 +65,7 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
         }
     }
     if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
-        throw CustomException("Invalid Command");
+        throw CustomException("INVALID COMMAND");
     }
     return { command, parameter };
 }
@@ -65,18 +76,19 @@ unsigned int TestShell::read(std::vector<unsigned int> address) {
     if (address[0] < 0 || address[0] > 99)
         std::cerr << "INVALID COMMAND \n";
 
-    return driver->read(address[0]);;
+    return driver->read(address[0]);
 }
 
-bool TestShell::fullread() {
+std::vector<unsigned int> TestShell::fullread() {
+    std::vector<unsigned int> readDataList;
     std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
-        unsigned int value = driver->read(lba);
+        readDataList.push_back(driver->read(lba));
         std::cout << "LBA " << lba << " : 0x"
-            << std::hex << value << std::dec << " (" << value << ")\n";
+            << std::hex << readDataList[lba] << std::dec << " (" << readDataList[lba] << ")\n";
     }
-    return true;
+return readDataList;
 }
 
 void TestShell::runPartialLbaWriteTest() {
@@ -102,4 +114,39 @@ void TestShell::runPartialLbaWriteTest() {
         EXPECT_CALL(mockdriver, read(ADDRESS[idx])).Times(1).WillOnce(Return(LBA_MAP[ADDRESS[idx]]));
         EXPECT_EQ(testshell.read({ ADDRESS[idx] }), LBA_MAP[ADDRESS[idx]]);
     }
+}
+
+bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int value) {
+    int readData = read(address);
+    return readData == value;
+}
+
+void TestShell::Script1() {
+    for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
+        for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
+            unsigned int address = loopCnt * iter;
+            unsigned int expectedValue = ScriptTest_Value + loopCnt;
+
+            writeWithNewParam(address, expectedValue);
+
+            unsigned int actualValue = readWithNewParam(address);
+            if (actualValue != expectedValue) {
+                std::cout << "FAIL";
+                return;
+            }
+        }
+    }
+    std::cout << "PASS" << std::endl;
+}
+
+void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
+    std::vector<unsigned int> command_param;
+    command_param.push_back(address);
+    command_param.push_back(writevalue);
+    write(command_param);
+}
+
+unsigned int TestShell::readWithNewParam(unsigned int address) {
+    std::vector<unsigned int> readAddress{ address };
+    return read(readAddress);
 }
