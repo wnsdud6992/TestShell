@@ -74,5 +74,4 @@ bool TestShell::fullread() {
             << std::hex << value << std::dec << " (" << value << ")\n";
     }
     return true;
->>>>>>> origin/master
 }
