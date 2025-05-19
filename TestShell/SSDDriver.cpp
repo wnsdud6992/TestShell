@@ -1,4 +1,4 @@
-#include "SSDDriver.h"
+ï»¿#include "SSDDriver.h"
 
 void SSDDriver::write(unsigned int address, unsigned int value) {
 	std::string SSD_exe_Writeparam = "";
@@ -28,15 +28,15 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	std::ifstream inputFile(SSD_OutPutFile);
 
 	if (!inputFile) {
-		throw CustomException("ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù");
+		throw CustomException("íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
 	}
 
 	unsigned int readvalue;
 	if (inputFile >> readvalue) {
-		std::cout << "ÀÐÀº °ª: " << readvalue << std::endl;
+		std::cout << "ì½ì€ ê°’: " << readvalue << std::endl;
 	}
 	else {
-		throw CustomException("ÆÄÀÏ¿¡¼­ °ªÀ» ÀÐÀ» ¼ö ¾ø½À´Ï´Ù.");
+		throw CustomException("íŒŒì¼ì—ì„œ ê°’ì„ ì½ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 
 	inputFile.close();
