@@ -33,7 +33,7 @@ std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(st
     if (iss >> command) {
         std::string token;
         while (iss >> token) {
-            parameter.push_back(std::stoul(token));
+            parameter.push_back(std::stoul(token, nullptr, 0));
         }
     }
     return { command, parameter };
