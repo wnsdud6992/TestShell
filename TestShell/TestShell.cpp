@@ -9,25 +9,25 @@ using namespace testing;
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 
 void TestShell::help() {
-    std::cout << "\níŒ€ëª… : Critical Coders\n";
-    std::cout << "ì œì‘ì : ìµœì¤€ì˜, ì•ˆì§€ìˆ˜, ì¡°í¬ì„±, ì´ì•„ë„¤ìŠ¤, ì†ë¯¼ê¸°, ì¡°íš¨ì§„\n\n";
+    std::cout << "\nÆÀ¸í : Critical Coders\n";
+    std::cout << "Á¦ÀÛÀÚ : ÃÖÁØ¿µ, ¾ÈÁö¼ö, Á¶Èñ¼º, ÀÌ¾Æ³×½º, ¼Õ¹Î±â, Á¶È¿Áø\n\n";
 
-    std::cout << "íŠ¹ì • ëª…ë ¹ì–´ì— ëŒ€í•œ ìì„¸í•œ ë‚´ìš©ì´ í•„ìš”í•˜ë©´ HELP <ëª…ë ¹ì–´ ì´ë¦„>ì„ ì…ë ¥í•˜ì‹­ì‹œì˜¤.\n\n";
+    std::cout << "Æ¯Á¤ ¸í·É¾î¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ ³»¿ëÀÌ ÇÊ¿äÇÏ¸é HELP <¸í·É¾î ÀÌ¸§>À» ÀÔ·ÂÇÏ½Ê½Ã¿À.\n\n";
 
-    std::cout << "ê¸°ë³¸ ëª…ë ¹ì–´:\n";
+    std::cout << "±âº» ¸í·É¾î:\n";
     std::cout << std::left;
-    std::cout << "  " << std::setw(20) << "Write" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
-    std::cout << "  " << std::setw(20) << "Read" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n";
-    std::cout << "  " << std::setw(20) << "fullwrite" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
-    std::cout << "  " << std::setw(20) << "fullread" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n\n";
+    std::cout << "  " << std::setw(20) << "Write" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
+    std::cout << "  " << std::setw(20) << "Read" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n";
+    std::cout << "  " << std::setw(20) << "fullwrite" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
+    std::cout << "  " << std::setw(20) << "fullread" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n\n";
 
-    std::cout << "í…ŒìŠ¤íŠ¸ ëª…ë ¹ì–´:\n";
+    std::cout << "Å×½ºÆ® ¸í·É¾î:\n";
     std::cout << "  " << std::setw(30) << "1_FullWriteAndReadCompare"
-        << "ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì“´ ë’¤ ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
+        << "¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ¾´ µÚ ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
     std::cout << "  " << std::setw(30) << "2_PartialLBAWrite"
-        << "íŠ¹ì • ì£¼ì†Œë“¤ì— ì…ë ¥ë°›ì€ ê°’ì„ ë™ì¼í•˜ê²Œ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
+        << "Æ¯Á¤ ÁÖ¼Òµé¿¡ ÀÔ·Â¹ŞÀº °ªÀ» µ¿ÀÏÇÏ°Ô ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
     std::cout << "  " << std::setw(30) << "3_WriteReadAging"
-        << "íŠ¹ì • ì£¼ì†Œì— ëœë¤í•œ ê°’ì„ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
+        << "Æ¯Á¤ ÁÖ¼Ò¿¡ ·£´ıÇÑ °ªÀ» ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
 
     std::cout << std::endl;
 }
@@ -81,7 +81,6 @@ unsigned int TestShell::CheckReadParamValid(const std::vector<unsigned int>& par
     return param[0];
 }
 
-
 unsigned int TestShell::read(unsigned int address) {
     return driver->read(address);
 }
@@ -91,7 +90,9 @@ std::vector<unsigned int> TestShell::fullread() {
     std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
-        readDataList.push_back(driver->read(lba));
+        unsigned int data = driver->read(lba);
+        std::cout << "[Read]" << " LBA " << lba << " : " << "0x" << std::setw(8) << std::setfill('0') << std::hex << data << std::endl;
+        readDataList.push_back(data);
     }
     return readDataList;
 }
@@ -135,34 +136,28 @@ bool TestShell::Script2() {
 
 bool TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
-        srand(RAND_SEED);
+        srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
         driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
         driver->write(99, randomData);
-        std::vector<unsigned int> firstAddressVector{ TestShell::ADDRESS_RANGE_MIN };
-        std::vector<unsigned int> lastAddressVector{ TestShell::ADDRESS_RANGE_MAX };
 
-        if (!(readCompare(firstAddressVector, randomData) && readCompare(lastAddressVector, randomData)))
+        if (!(readCompare(TestShell::ADDRESS_RANGE_MIN, randomData) && readCompare(TestShell::ADDRESS_RANGE_MAX, randomData)))
             return false;
     }
     return true;
 }
 
 void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
-    std::vector<unsigned int> command_param;
-    command_param.push_back(address);
-    command_param.push_back(writevalue);
-    write(command_param);
+    write(address, writevalue);
 }
 
 unsigned int TestShell::readWithNewParam(unsigned int address) {
-    std::vector<unsigned int> readAddress{ address };
-    return read(readAddress);
+    return read(address);
 }
 
 void TestShell::writeFive(int loopCnt){
-    for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
-        unsigned int address = loopCnt * iter;
+    for (int iter = 0; iter < Script1_OnceLoopCount; iter++) {
+        unsigned int address = loopCnt + iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
 
         write(address, expectedValue);
@@ -170,10 +165,9 @@ void TestShell::writeFive(int loopCnt){
 }
 
 bool TestShell::readCompareFive(int loopCnt) {
-    for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
-        unsigned int address = loopCnt * iter;
+    for (int iter = 0; iter < Script1_OnceLoopCount; iter++) {
+        unsigned int address = loopCnt + iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
-
         if (read(address) != expectedValue) {
             std::cout << "FAIL";
             return false;

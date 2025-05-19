@@ -22,8 +22,8 @@ TEST_F(ScriptTestFixture, ReadCompareTest) {
 TEST_F(ScriptTestFixture, Script1Test) {
 	for (int iter = 0; iter < 20; iter++) {
 		for (int idx = 0; idx < 5;idx++) {
-			EXPECT_CALL(mockdriver, read(iter * idx)).WillOnce(Return(ScriptTest_Value + iter));
-			EXPECT_TRUE(testshell.readCompare(iter * idx, ScriptTest_Value + iter));
+			EXPECT_CALL(mockdriver, read(iter + idx)).WillOnce(Return(ScriptTest_Value + iter));
+			EXPECT_TRUE(testshell.readCompare(iter + idx, ScriptTest_Value + iter));
 		}
 	}
 }

@@ -31,29 +31,24 @@ int main() {
             else if (command == "help") {
                 testShell->help();
             }
-            else if (command == "exit") {
-                std::cout << "Thank you and bye~";
-                break;
-            }
             else if (command == "fullwrite") {
                 unsigned int data = testShell->CheckFullWriteParamValid(parameter);
                 testShell->fullwrite(data);
-                break;
             }
             else if (command == "fullread") {
                 testShell->fullread();
-                break;
             }
             else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
                 testShell->Script1();
-                break;
             }
             else if (command == "2_PartialLBAWrite" || command == "2_") {
-                // testShell->Script2();
-                break;
+                testShell->Script2();
             }
             else if (command == "3_WriteReadAging" || command == "3_") {
-                // testShell->Script3();
+                testShell->Script3();
+            }
+            else if (command == "exit") {
+                std::cout << "Thank you and bye~";
                 break;
             }
             else {

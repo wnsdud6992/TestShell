@@ -22,7 +22,7 @@ void SSDDriver::runSSDWithParam(const std::string& param) {
 	std::string command = "\"" + path + "\" " + param;
 	std::cout << "Command: " << command << std::endl;
 	int result = std::system(command.c_str());
-	std::cout << "Exit code: " << result << std::endl;
+	// std::cout << "Exit code: " << result << std::endl;
 }
 
 unsigned int SSDDriver::readSSDOutputFile() {
@@ -41,5 +41,5 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	}
 
 	inputFile.close();
-	return stoul(readvalue);
+	return std::stoul(readvalue, nullptr, 16);
 }
