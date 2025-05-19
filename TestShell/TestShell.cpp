@@ -18,7 +18,7 @@ void TestShell::fullwrite(std::vector<unsigned int> command_param) {
     }
 
     const unsigned int data = command_param[0];
-    for(int address_index = 0 ; address_index < 100; address_index++){
+    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
 }
