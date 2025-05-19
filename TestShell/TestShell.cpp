@@ -9,12 +9,6 @@ void TestShell::write(std::vector<unsigned int> command_param){
 
     int address = command_param[0];
     int data = command_param[1];
-
-
-	if (address < ADDRESS_RANGE_MIN || address > ADDRESS_RANGE_MAX) {
-		throw std::exception("address range over");
-		return;
-	}
 	driver->write(address, data);
 }
 
