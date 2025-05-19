@@ -93,30 +93,37 @@ bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int valu
 
 void TestShell::Script1() {
     for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
-        for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
-            unsigned int address = loopCnt * iter;
-            unsigned int expectedValue = ScriptTest_Value + loopCnt;
-
-            writeWithNewParam(address, expectedValue);
-
-            unsigned int actualValue = readWithNewParam(address);
-            if (actualValue != expectedValue) {
-                std::cout << "FAIL";
-                return;
-            }
+        writeFive(loopCnt);
+        if (readCompareFive(loopCnt) == false) {
+            return;
         }
     }
     std::cout << "PASS" << std::endl;
 }
 
-void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
-    std::vector<unsigned int> command_param;
-    command_param.push_back(address);
-    command_param.push_back(writevalue);
-    write(command_param);
+void TestShell::writeFive(int loopCnt){
+    for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
+        unsigned int address = loopCnt * iter;
+        unsigned int expectedValue = ScriptTest_Value + loopCnt;
+
+        std::vector<unsigned int> command_param;
+        command_param.push_back(address);
+        command_param.push_back(expectedValue);
+        write(command_param);
+    }
 }
 
-unsigned int TestShell::readWithNewParam(unsigned int address) {
-    std::vector<unsigned int> readAddress{ address };
-    return read(readAddress);
+bool TestShell::readCompareFive(int loopCnt) {
+    for (int iter = 0; iter < Script1_OnceLoopCount; ++iter) {
+        unsigned int address = loopCnt * iter;
+        unsigned int expectedValue = ScriptTest_Value + loopCnt;
+
+        std::vector<unsigned int> readAddress{ address };
+        unsigned int actualValue = read(readAddress);
+        if (actualValue != expectedValue) {
+            std::cout << "FAIL";
+            return false;
+        }
+    }
+    return true;
 }
