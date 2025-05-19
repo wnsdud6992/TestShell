@@ -8,8 +8,8 @@ void TestShell::write(std::vector<unsigned int> command_param){
         return;
     }
 
-    unsigned int address = command_param[0];
-    unsigned int data = command_param[1];
+    const unsigned int address = command_param[0];
+    const unsigned int data = command_param[1];
 	driver->write(address, data);
 }
 
@@ -19,7 +19,7 @@ void TestShell::fullwrite(std::vector<unsigned int> command_param) {
         return;
     }
 
-    unsigned int data = command_param[0];
+    const unsigned int data = command_param[0];
     for(int address_index = 0 ; address_index < 100; address_index++){
         driver->write(address_index, data);
     }
