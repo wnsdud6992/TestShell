@@ -33,6 +33,11 @@ int main() {
                 std::cout << "Thank you and bye~";
                 break;
             }
+            else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
+                testShell->Script1();
+                std::cout << "Thank you and bye~";
+                break;
+            }
         }
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;

@@ -15,6 +15,7 @@ public:
 
 	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string &param);
 	bool readCompare(std::vector<unsigned int >address, unsigned int value);
+	void Script1();
 
 private:
 	IDriver* driver;

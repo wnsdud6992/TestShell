@@ -81,3 +81,20 @@ bool TestShell::readCompare(std::vector<unsigned int >address, unsigned int valu
     int readData = read(address);
     return readData == value;
 }
+
+void TestShell::Script1() {
+    for (int iter = 0; iter < 20; iter++) {
+        for (int idx = 0; idx < 5;idx++) {
+            std::vector<unsigned int> command_param;
+            command_param.push_back(iter * idx);
+            command_param.push_back(ScriptTest_Value + iter);
+            write(command_param);
+            std::vector<unsigned int> tempAddress{ static_cast<unsigned int>(iter * idx) };
+            if (read(tempAddress) != ScriptTest_Value + iter) {
+                std::cout << "FAIL";
+                return;
+            }
+        }
+    }
+    std::cout << "PASS";
+}

@@ -13,3 +13,5 @@ public:
 inline std::vector<std::string> validCommands = {
     "write", "read", "exit", "help", "fullwrite", "fullread"
 };
+
+constexpr unsigned int ScriptTest_Value = 0x1289CDEF;
