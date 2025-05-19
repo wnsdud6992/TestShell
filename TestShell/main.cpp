@@ -24,6 +24,13 @@ int main() {
             testShell->write(parameter);
         }
         else if (command == "read") {
+            testShell->read(parameter);
+        }
+        else if (command == "fullwrite") {
+            testShell->fullwrite(parameter);
+        }
+        else if (command == "fullread") {
+            testShell->fullread();
         }
         else if (command == "help") {
             testShell->help();
