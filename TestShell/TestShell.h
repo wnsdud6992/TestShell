@@ -22,6 +22,6 @@ public:
 private:
 	IDriver* driver;
 
-	void writeWithNewParam(unsigned int address, unsigned int writevalue);
-	unsigned int readWithNewParam(unsigned int address);
+	void writeFive(int loopCnt);
+	bool readCompareFive(int address);
 };
