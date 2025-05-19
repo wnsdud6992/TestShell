@@ -4,7 +4,7 @@
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
 void TestShell::write(std::vector<unsigned int> command_param){
     if (command_param.size() != 2) {
-        throw std::exception("write command argument error");
+        throw CustomException("write command argument error");
     }
 
     const unsigned int address = command_param[0];
@@ -14,7 +14,7 @@ void TestShell::write(std::vector<unsigned int> command_param){
 
 void TestShell::fullwrite(std::vector<unsigned int> command_param) {
     if (command_param.size() != 1) {
-        throw std::exception("write command argument error");
+        throw CustomException("write command argument error");
     }
 
     const unsigned int data = command_param[0];

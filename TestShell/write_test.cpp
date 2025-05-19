@@ -23,9 +23,9 @@ TEST_F(WriteFixture, NormalWritePass) {
 }
 TEST_F(WriteFixture, InvaildCommandFail) {
 	EXPECT_CALL(mockdriver, write(_, _)).Times(0);
-	EXPECT_THROW(testshell.write(arg_missing_param), std::exception);
-	EXPECT_THROW(testshell.write(arg_over_param), std::exception);
-	EXPECT_THROW(testshell.fullwrite(normal_param), std::exception);
+	EXPECT_THROW(testshell.write(arg_missing_param), CustomException);
+	EXPECT_THROW(testshell.write(arg_over_param), CustomException);
+	EXPECT_THROW(testshell.fullwrite(normal_param), CustomException);
 }
 TEST_F(WriteFixture, FullWritePass) {
 	//Check write command cycle
