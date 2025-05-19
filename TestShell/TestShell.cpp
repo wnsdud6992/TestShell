@@ -45,7 +45,7 @@ bool TestShell::fullread() {
     std::cout << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
-        uint32_t value = driver->read(lba);
+        unsigned int value = driver->read(lba);
         std::cout << "LBA " << lba << " : 0x"
             << std::hex << value << std::dec << " (" << value << ")\n";
     }
