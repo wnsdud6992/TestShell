@@ -13,5 +13,9 @@ public:
 };
 
 inline std::vector<std::string> validCommands = {
-	"write", "read", "exit", "help", "fullwrite", "fullread", "3_WriteReadAging","3_"
+    "write", "read", "exit", "help", "fullwrite", "fullread"
 };
+
+constexpr int Script1_TotalLoopCount = 20;
+constexpr int Script1_OnceLoopCount = 5;
+constexpr unsigned int ScriptTest_Value = 0x1289CDEF;

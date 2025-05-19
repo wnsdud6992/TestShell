@@ -45,6 +45,9 @@
     <ClCompile Include="read_test.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="script_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
     <ClCompile Include="script_3_test.cpp">
       <Filter>test</Filter>
     </ClCompile>
