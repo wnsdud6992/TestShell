@@ -129,17 +129,15 @@ bool TestShell::readCompareFive(int loopCnt) {
 }
 
 bool TestShell::Script3(){
-    int loop = 200;
-    while (loop--) {
+    for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED);
-        unsigned int random_number = (std::rand() << 16) | std::rand();
-        driver->write(0, random_number);
-        driver->write(99, random_number);
+        unsigned int randomData = (std::rand() << 16) | std::rand();
+        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(99, randomData);
+        std::vector<unsigned int> firstAddressVector{ TestShell::ADDRESS_RANGE_MIN };
+        std::vector<unsigned int> lastAddressVector{ TestShell::ADDRESS_RANGE_MAX };
 
-        std::vector<unsigned int> fistLBA{ 0 };
-        std::vector<unsigned int> lastLBA{ 99 };
-
-        if (!(readCompare(fistLBA, random_number) && readCompare(lastLBA, random_number)))
+        if (!(readCompare(firstAddressVector, randomData) && readCompare(lastAddressVector, randomData)))
             return false;
     }
     return true;

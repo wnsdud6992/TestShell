@@ -3,8 +3,8 @@
 #include <iostream>
 class TestShell {
 public:
-	const int ADDRESS_RANGE_MIN = 0;
-	const int ADDRESS_RANGE_MAX = 99;
+	const unsigned int ADDRESS_RANGE_MIN = 0;
+	const unsigned int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_);
 	void write(std::vector<unsigned int> command_param);
