@@ -5,5 +5,5 @@ class SSDDriver : public IDriver {
 public:
 	SSDDriver() {}
 	void write(int address, int value) override;
-	unsigned int read(int address) override;
+	unsigned int read(unsigned int address) override;
 };
