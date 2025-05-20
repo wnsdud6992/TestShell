@@ -217,6 +217,27 @@ bool TestShell::Script3(){
     return true;
 }
 
+bool TestShell::Script4() {
+    driver->erase(0, 3);
+    for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
+            driver->write(base_addr, data);
+            if (!readCompare(base_addr, data)) return false;
+            driver->write(base_addr, data+1);
+            if (!readCompare(base_addr, data+1)) return false;
+            driver->erase(base_addr, 3);
+            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
+                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
     write(address, writevalue);
 }
