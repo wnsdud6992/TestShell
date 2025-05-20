@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parsing_test.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="IDriver.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="MockDriver.h" />
     <ClInclude Include="SSDDriver.h" />
     <ClInclude Include="TestShell.h" />

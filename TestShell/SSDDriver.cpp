@@ -41,5 +41,5 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	}
 
 	inputFile.close();
-	return std::stoul(readvalue, nullptr, 16);
+	return std::stoul(readvalue, nullptr, 0);
 }

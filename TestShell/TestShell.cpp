@@ -57,6 +57,7 @@ std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std
 }
 
 void TestShell::write(unsigned int address, unsigned int data){
+    Logger::getInstance().LogPrint("TestShell", __func__, "Write ½ÃÀÛ!!!");
 	driver->write(address, data);
 }
 
