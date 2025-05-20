@@ -136,6 +136,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="read_test.cpp" />
+    <ClCompile Include="Runner.cpp" />
     <ClCompile Include="script_test.cpp" />
     <ClCompile Include="script_3_test.cpp" />
     <ClCompile Include="SSDDriver.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="IDriver.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MockDriver.h" />
+    <ClInclude Include="Runner.h" />
     <ClInclude Include="SSDDriver.h" />
     <ClInclude Include="TestShell.h" />
   </ItemGroup>

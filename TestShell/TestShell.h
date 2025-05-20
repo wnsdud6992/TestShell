@@ -4,7 +4,7 @@
 class TestShell {
 public:
 
-	TestShell(IDriver* driver_);
+	TestShell(IDriver* driver_, std::ostream& output_ = std::cout);
 
 	
 	void help();
@@ -35,6 +35,7 @@ public:
 
 private:
 	IDriver* driver;
+	std::ostream& out;
 
 	void writeWithNewParam(unsigned int address, unsigned int writevalue);
 	unsigned int readWithNewParam(unsigned int address);

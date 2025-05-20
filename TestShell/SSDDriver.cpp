@@ -17,6 +17,10 @@ unsigned int SSDDriver::read(unsigned int address) {
 	return readSSDOutputFile();
 }
 
+void SSDDriver::setoutput(std::ostream* output){
+	this->out = output;
+}
+
 void SSDDriver::runSSDWithParam(const std::string& param) {
 	std::string command = "\"" + SSDexe_Path + "\" " + param;
 	std::cout << "Command: " << command << std::endl;  // Todo. 추후 제거
@@ -32,8 +36,8 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	}
 
 	std::string readvalue;
-	if (inputFile >> readvalue) {
-		std::cout << "읽은 값: " << readvalue << std::endl;
+	if (inputFile >> readvalue && out) {
+		*out << "읽은 값: " << readvalue << std::endl;
 	}
 	else {
 		throw CustomException("파일에서 값을 읽을 수 없습니다.");
