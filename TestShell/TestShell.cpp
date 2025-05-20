@@ -197,7 +197,11 @@ bool TestShell::Script4() {
             driver->write(base_addr, data+1);
             if (!readCompare(base_addr, data+1)) return false;
             driver->erase(base_addr, 3);
-            if (!readCompare(base_addr, 0x00000000)) return false;
+            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
+                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
+                    return false;
+                }
+            }
         }
     }
     return true;
