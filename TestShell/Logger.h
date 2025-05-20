@@ -15,6 +15,8 @@ public:
 
     static void CheckLogFileToChange();
 
+    static void ZipOldestLogFile();
+
 private:
     Logger() {}
     

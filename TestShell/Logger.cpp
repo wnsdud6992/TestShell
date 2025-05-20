@@ -58,4 +58,35 @@ void Logger::CheckLogFileToChange() {
             std::cerr << "오류 코드: " << e.code() << '\n';
         }
     }
+    ZipOldestLogFile();
+}
+
+void Logger::ZipOldestLogFile() {
+    std::vector<std::filesystem::directory_entry> untilLogs;
+    for (const auto& entry : std::filesystem::directory_iterator(LogDir)) {
+        if (!entry.is_regular_file()) continue;
+
+        std::string filename = entry.path().filename().string();
+        if (filename.starts_with("until_") && filename.ends_with(".log")) {
+            untilLogs.push_back(entry);
+        }
+    }
+
+    if (untilLogs.size() >= 2) {
+        std::sort(untilLogs.begin(), untilLogs.end(), [](const auto& a, const auto& b) {
+            return std::filesystem::last_write_time(a) < std::filesystem::last_write_time(b);
+            });
+
+        const auto& oldestFile = untilLogs.front().path();
+        std::filesystem::path renamed = oldestFile;
+        renamed += ".zip";
+
+        try {
+            std::filesystem::rename(oldestFile, renamed);
+            std::cout << "Renamed: " << oldestFile << " → " << renamed << '\n';
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Rename 실패: " << e.what() << '\n';
+        }
+    }
 }

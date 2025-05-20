@@ -10,6 +10,8 @@
 #include <chrono>
 #include <thread>
 #include <windows.h>
+#include <algorithm>
+
 
 const std::string SSD_OutPutFile = "ssd_output.txt";
 const std::string LogDir = ".\\Log";
