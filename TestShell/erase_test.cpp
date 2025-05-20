@@ -25,6 +25,11 @@ TEST_F(EraseFixture, NormalErase) {
 }
 TEST_F(EraseFixture, MinusSizeErase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
+	testshell.erase(LBA_9, MINUS_SIZE_10);
+
+}
+TEST_F(EraseFixture, MinusSizeUnderAddressErase) {
+	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_1)).Times(1);
 	testshell.erase(LBA_0, MINUS_SIZE_10);
 
 }
