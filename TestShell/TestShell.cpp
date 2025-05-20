@@ -70,7 +70,7 @@ unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>
 }
 
 void TestShell::fullwrite(unsigned int data) {
-    for(unsigned int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+    for(unsigned int address_index = ADDRESS_RANGE_MIN; address_index <= ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
 }
@@ -121,7 +121,6 @@ void TestShell::erase(unsigned int address, int size) {
         size = (ADDRESS_RANGE_MAX - address + 1);
     
     //check over size
-    const int MAX_ERASE_SIZE = 10;
     while (size > MAX_ERASE_SIZE) {
         driver->erase(address, MAX_ERASE_SIZE);
         size -= MAX_ERASE_SIZE;
@@ -175,10 +174,10 @@ bool TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
-        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(ADDRESS_RANGE_MIN, randomData);
         driver->write(99, randomData);
 
-        if (!(readCompare(TestShell::ADDRESS_RANGE_MIN, randomData) && readCompare(TestShell::ADDRESS_RANGE_MAX, randomData)))
+        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
             return false;
     }
     return true;

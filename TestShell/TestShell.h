@@ -3,8 +3,6 @@
 #include <iostream>
 class TestShell {
 public:
-	const unsigned int ADDRESS_RANGE_MIN = 0;
-	const unsigned int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_);
 
