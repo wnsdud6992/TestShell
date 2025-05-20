@@ -2,6 +2,7 @@
 
 #include "TestShell.h"
 #include "SSDDriver.h"
+#include "Runner.h"
 int main() {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
@@ -11,7 +12,13 @@ int main() {
     std::cout << "What kind of driver do you want to test?" << std::endl;
     std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
     SSDDriver ssdDriver;
+    SSDDriver runnerSsdDriver;
+    std::ostringstream dummyOut;
+    runnerSsdDriver.setOutput(&dummyOut);
+
     std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo 추후 factory화 하여 사용자로부터 입력받은 driver로 실행
+    TestShell runnerTestShell(&runnerSsdDriver, dummyOut);
+    std::unique_ptr<Runner> runner = std::make_unique<Runner>(&runnerTestShell);
     std::string userInput;
     while (true) {
         std::cout << "Shell> ";
@@ -46,6 +53,9 @@ int main() {
             }
             else if (command == "3_WriteReadAging" || command == "3_") {
                 testShell->Script3();
+            }
+            else if (command == "run") {
+                runner->runFromFile("shell_scripts.txt");
             }
             else if (command == "exit") {
                 std::cout << "Thank you and bye~";
