@@ -106,6 +106,11 @@ void TestShell::erase(unsigned int address, int size) {
     if (size < 0)
         size *= (-1);
 
+    //check over address
+    if ((address + size) > ADDRESS_RANGE_MAX)
+        size = (ADDRESS_RANGE_MAX - address + 1);
+    
+
     const int MAX_ERASE_SIZE = 10;
     while (size > MAX_ERASE_SIZE) {
         driver->erase(address, MAX_ERASE_SIZE);

@@ -34,6 +34,12 @@ TEST_F(EraseFixture, SIZE11Erase) {
 	testshell.erase(LBA_0, SIZE_11);
 
 }
+TEST_F(EraseFixture, LastAddressSize10Erase) {
+	EXPECT_CALL(mockdriver, erase(MAX_LBA, SIZE_1)).Times(1);
+	testshell.erase(MAX_LBA, SIZE_11);
+
+}
+
 TEST_F(EraseFixture, SIZE10EraseRange) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testshell.erase_range(LBA_0, LBA_9);
