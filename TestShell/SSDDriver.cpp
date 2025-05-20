@@ -17,16 +17,13 @@ unsigned int SSDDriver::read(unsigned int address) {
 	return readSSDOutputFile();
 }
 
-void SSDDriver::setOutput(std::ostream* output){
+void SSDDriver::setoutput(std::ostream* output){
 	this->out = output;
 }
 
 void SSDDriver::runSSDWithParam(const std::string& param) {
-	std::string path = "C:\\Users\\User\\source\\repos\\TestShell\\TestShell\\SSD.exe";
-	std::string command = "\"" + path + "\" " + param;
-	if (out) {
-		*out << "Command: " << command << std::endl;
-	}
+	std::string command = "\"" + SSDexe_Path + "\" " + param;
+	std::cout << "Command: " << command << std::endl;  // Todo. 추후 제거
 	int result = std::system(command.c_str());
 	// std::cout << "Exit code: " << result << std::endl;
 }
@@ -48,4 +45,22 @@ unsigned int SSDDriver::readSSDOutputFile() {
 
 	inputFile.close();
 	return std::stoul(readvalue, nullptr, 0);
+}
+void SSDDriver::erase(unsigned int address, unsigned int size) {
+	std::string SSD_exe_Eraseparam = "";
+	std::ostringstream oss;
+	oss << "E " << address << " " << size;
+	if (size > MAX_ERASE_SIZE || size < 0) {
+		throw CustomException("Erase size range error");
+	}
+	SSD_exe_Eraseparam += oss.str();
+	runSSDWithParam(SSD_exe_Eraseparam);
+}
+void SSDDriver::flush() {
+	std::string SSD_exe_Flushparam = "";
+	std::ostringstream oss;
+	oss << "F ";
+	SSD_exe_Flushparam += oss.str();
+	runSSDWithParam(SSD_exe_Flushparam);
+
 }

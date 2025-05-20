@@ -1,8 +1,8 @@
-
-
 #include "TestShell.h"
 #include "SSDDriver.h"
 #include "Runner.h"
+#include "CommandFactory.h"
+
 int main() {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
@@ -14,56 +14,19 @@ int main() {
     SSDDriver ssdDriver;
     SSDDriver runnerSsdDriver;
     std::ostringstream dummyOut;
-    runnerSsdDriver.setOutput(&dummyOut);
+    runnerSsdDriver.setoutput(&dummyOut);
 
     std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo 추후 factory화 하여 사용자로부터 입력받은 driver로 실행
     TestShell runnerTestShell(&runnerSsdDriver, dummyOut);
     std::unique_ptr<Runner> runner = std::make_unique<Runner>(&runnerTestShell);
+    std::unique_ptr<TestShellCommandFactory> testShellCmdFactory = std::make_unique<TestShellCommandFactory>(testShell);
+
     std::string userInput;
     while (true) {
         std::cout << "Shell> ";
         try {
             std::getline(std::cin, userInput);
-
-            auto [command, parameter] = testShell->parameterParsing(userInput);
-
-            if (command == "write") {
-                auto [address, data] = testShell->CheckWriteParamValid(parameter);
-                testShell->write(address, data);
-            }
-            else if (command == "read") {
-              unsigned int address = testShell->CheckReadParamValid(parameter);
-              testShell->read(address);
-            }
-            else if (command == "help") {
-                testShell->help();
-            }
-            else if (command == "fullwrite") {
-                unsigned int data = testShell->CheckFullWriteParamValid(parameter);
-                testShell->fullwrite(data);
-            }
-            else if (command == "fullread") {
-                testShell->fullread();
-            }
-            else if (command == "1_FullWriteAndReadCompare" || command == "1_") {
-                testShell->Script1();
-            }
-            else if (command == "2_PartialLBAWrite" || command == "2_") {
-                testShell->Script2();
-            }
-            else if (command == "3_WriteReadAging" || command == "3_") {
-                testShell->Script3();
-            }
-            else if (command == "run") {
-                runner->runFromFile("shell_scripts.txt");
-            }
-            else if (command == "exit") {
-                std::cout << "Thank you and bye~";
-                break;
-            }
-            else {
-                std::cout << "Unknown command. Please try again." << std::endl;
-            }
+            testShellCmdFactory->executeCommand(userInput);
         }
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;

@@ -3,14 +3,14 @@
 #include <iostream>
 class TestShell {
 public:
-	const unsigned int ADDRESS_RANGE_MIN = 0;
-	const unsigned int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_, std::ostream& output_ = std::cout);
 
 	
 	void help();
-	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string& param);
+	std::pair<std::string, std::string> commandParsing(const std::string& param);
+	std::pair<unsigned int, int> EraseParamParsing(const std::string& param);
+	std::vector<unsigned int> normalParamParsing(const std::string& param);
 
    std::pair<unsigned int, unsigned int > CheckWriteParamValid(const std::vector<unsigned int>& command_param);
 	void write(unsigned int address, unsigned int data);
@@ -21,11 +21,17 @@ public:
 	unsigned int read(unsigned int address);
 	std::vector<unsigned int> fullread();
 	bool readCompare(unsigned int address, unsigned int value);
+
+	void erase(unsigned int adress, int size);
+	void erase_range(unsigned int start_adress, unsigned int end_size);
+
+	void flush();
+
 	void Script1();
 	bool Script2();
 	bool Script3();
+	bool Script4();
 
-	
 private:
 	IDriver* driver;
 	std::ostream& out;

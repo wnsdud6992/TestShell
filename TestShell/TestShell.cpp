@@ -2,8 +2,6 @@
 #include "MockDriver.h"
 #include "gmock/gmock.h"
 
-#include <iostream>
-
 using namespace testing;
 
 TestShell::TestShell(IDriver* driver_, std::ostream& output_) : driver(driver_), out(output_) {}
@@ -32,21 +30,52 @@ void TestShell::help() {
     out << std::endl;
 }
 
-std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string& param) {
-    std::vector<unsigned int> parameter;
+std::pair<std::string, std::string> TestShell::commandParsing(const std::string& param) {
+    std::string parameter = "";
     std::string command;
     std::istringstream iss(param);
 
-    if (iss >> command) {
-        std::string token;
-        while (iss >> token) {
-            parameter.push_back(std::stoul(token, nullptr, 0));
-        }
-    }
+    iss >> command;
+    std::getline(iss, parameter);
+
     if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
         throw CustomException("INVALID COMMAND");
     }
     return { command, parameter };
+}
+
+std::pair<unsigned int, int> TestShell::EraseParamParsing(const std::string& parameter) {
+    unsigned int LBA;
+    int size;
+    std::istringstream iss(parameter);
+
+    std::string param;
+    std::vector<std::string> paramList;
+
+    while (iss >> param) {
+        paramList.push_back(param);
+    }
+
+    if (paramList.size() >= 3) {
+        throw CustomException("Error: Too many parameters! Only two allowed.");
+    }
+    else {
+        LBA = std::stoul(paramList[0], nullptr, 0);
+        size = std::stoi(paramList[1]);
+    }
+
+    return { LBA, size };
+}
+
+std::vector<unsigned int> TestShell::normalParamParsing(const std::string& param) {
+    std::vector<unsigned int> parameter;
+
+    std::istringstream iss(param);
+    std::string token;
+    while (iss >> token) {
+        parameter.push_back(std::stoul(token, nullptr, 0));
+    }
+    return parameter;
 }
 
 std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std::vector<unsigned int> &command_param) {
@@ -69,7 +98,7 @@ unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>
 }
 
 void TestShell::fullwrite(unsigned int data) {
-    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+    for(unsigned int address_index = ADDRESS_RANGE_MIN; address_index <= ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
 }
@@ -100,6 +129,47 @@ std::vector<unsigned int> TestShell::fullread() {
 
 bool TestShell::readCompare(unsigned int address, unsigned int value) {
     return read(address) == value;
+}
+
+void TestShell::erase(unsigned int address, int size) {
+    if (address > ADDRESS_RANGE_MAX) {
+        throw CustomException("erase inuput address range over");
+    }
+    //check minus size
+    if (size < 0) {
+        int calcAddress = (address + size + 1);
+        size *= (-1);
+        //check under address
+        if (calcAddress < 0) {
+            size = (calcAddress + size);
+            calcAddress = 0;
+        }
+        address = calcAddress;
+    }
+    
+    //check over address
+    if ((address + size) > ADDRESS_RANGE_MAX)
+        size = (ADDRESS_RANGE_MAX - address + 1);
+    
+    //check over size
+    while (size > MAX_ERASE_SIZE) {
+        driver->erase(address, MAX_ERASE_SIZE);
+        size -= MAX_ERASE_SIZE;
+        address += MAX_ERASE_SIZE;
+    }
+    if (size > 0)
+        driver->erase(address, size);
+}
+
+void TestShell::erase_range(unsigned int start_address, unsigned int end_size) {
+    if (start_address > end_size)
+        std::swap(start_address, end_size);
+    int size = (end_size - start_address) + 1;
+    driver->erase(start_address, size);
+}
+
+void TestShell::flush() {
+    driver->flush();
 }
 
 void TestShell::Script1() {
@@ -139,11 +209,32 @@ bool TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
-        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(ADDRESS_RANGE_MIN, randomData);
         driver->write(99, randomData);
 
-        if (!(readCompare(TestShell::ADDRESS_RANGE_MIN, randomData) && readCompare(TestShell::ADDRESS_RANGE_MAX, randomData)))
+        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
             return false;
+    }
+    return true;
+}
+
+bool TestShell::Script4() {
+    driver->erase(0, 3);
+    for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
+            driver->write(base_addr, data);
+            if (!readCompare(base_addr, data)) return false;
+            driver->write(base_addr, data+1);
+            if (!readCompare(base_addr, data+1)) return false;
+            driver->erase(base_addr, 3);
+            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
+                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
+                    return false;
+                }
+            }
+        }
     }
     return true;
 }
