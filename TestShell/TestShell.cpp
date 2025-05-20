@@ -105,16 +105,15 @@ bool TestShell::readCompare(unsigned int address, unsigned int value) {
 void TestShell::erase(unsigned int address, int size) {
     //check minus size
     if (size < 0) {
-        int calcAddress = (address + size);
+        int calcAddress = (address + size + 1);
         size *= (-1);
         //check under address
         if (calcAddress < 0) {
-            size = (calcAddress + size + 1);
+            size = (calcAddress + size);
             calcAddress = 0;
         }
         address = calcAddress;
     }
-
     
     //check over address
     if ((address + size) > ADDRESS_RANGE_MAX)

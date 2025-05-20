@@ -11,11 +11,14 @@ public:
 	const unsigned int LBA_0 = 0;
 	const unsigned int LBA_9 = 9;
 	const unsigned int LBA_10 = 10;
+	const unsigned int LBA_20 = 20;
 	const unsigned int MAX_LBA = 100 - 1;
 	const unsigned int SIZE_1 = 1;
 	const unsigned int SIZE_10 = 10;
 	const unsigned int SIZE_11 = 11;
+	const unsigned int SIZE_99 = 99;
 	const int MINUS_SIZE_10 = -10;
+	const int MINUS_SIZE_99 = -99;
 };
 
 TEST_F(EraseFixture, NormalErase) {
@@ -54,4 +57,23 @@ TEST_F(EraseFixture, SIZEMinus10EraseRange) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testshell.erase_range(LBA_9, LBA_0);
 
+}
+TEST_F(EraseFixture, EraseTestPDF) {
+	EXPECT_CALL(mockdriver, erase(4, 2)).Times(1);
+	testshell.erase(5, -2);
+	EXPECT_CALL(mockdriver, erase(5, 1)).Times(1);
+	testshell.erase(5, -1);
+	EXPECT_CALL(mockdriver, erase(20, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(30, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(40, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(50, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(60, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(70, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(80, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(90, 10)).Times(1);
+	testshell.erase(20, 99);
+	EXPECT_CALL(mockdriver, erase(0, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(10, 10)).Times(1);
+	EXPECT_CALL(mockdriver, erase(20, 1)).Times(1);
+	testshell.erase(20, -99);
 }
