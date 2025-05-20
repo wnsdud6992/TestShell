@@ -2,9 +2,6 @@
 #include "MockDriver.h"
 #include "gmock/gmock.h"
 
-#include <iostream>
-#include <algorithm>
-
 using namespace testing;
 
 TestShell::TestShell(IDriver* driver_) : driver(driver_) {}
@@ -138,6 +135,10 @@ void TestShell::erase_range(unsigned int start_address, unsigned int end_size) {
         std::swap(start_address, end_size);
     int size = (end_size - start_address) + 1;
     driver->erase(start_address, size);
+}
+
+void TestShell::flush() {
+    driver->flush();
 }
 
 void TestShell::Script1() {

@@ -7,6 +7,7 @@ public:
 	void write(unsigned int address, unsigned int value) override;
 	unsigned int read(unsigned int address) override;
 	void erase(unsigned int address, unsigned int size) override;
+	void flush() override;
 
 private:
 	void runSSDWithParam(const std::string& param);

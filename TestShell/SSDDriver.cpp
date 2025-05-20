@@ -44,7 +44,6 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	return std::stoul(readvalue, nullptr, 0);
 }
 void SSDDriver::erase(unsigned int address, unsigned int size) {
-	//[TODO] : make erase function
 	std::string SSD_exe_Eraseparam = "";
 	std::ostringstream oss;
 	oss << "E " << address << " " << size;
@@ -53,4 +52,12 @@ void SSDDriver::erase(unsigned int address, unsigned int size) {
 	}
 	SSD_exe_Eraseparam += oss.str();
 	runSSDWithParam(SSD_exe_Eraseparam);
+}
+void SSDDriver::flush() {
+	std::string SSD_exe_Flushparam = "";
+	std::ostringstream oss;
+	oss << "F ";
+	SSD_exe_Flushparam += oss.str();
+	runSSDWithParam(SSD_exe_Flushparam);
+
 }

@@ -23,6 +23,8 @@ public:
 	void erase(unsigned int adress, int size);
 	void erase_range(unsigned int start_adress, unsigned int end_size);
 
+	void flush();
+
 	void Script1();
 	bool Script2();
 	bool Script3();
