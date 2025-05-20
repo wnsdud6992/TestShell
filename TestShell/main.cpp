@@ -58,6 +58,7 @@ int main() {
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;
         }
+        Sleep(10);
     }
     return 0;
 #endif
