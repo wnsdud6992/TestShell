@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="erase_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parsing_test.cpp">
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="IDriver.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="MockDriver.h" />
     <ClInclude Include="SSDDriver.h" />
     <ClInclude Include="TestShell.h" />
