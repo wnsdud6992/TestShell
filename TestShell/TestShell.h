@@ -21,6 +21,9 @@ public:
 	unsigned int read(unsigned int address);
 	std::vector<unsigned int> fullread();
 	bool readCompare(unsigned int address, unsigned int value);
+
+	void erase(unsigned int adress, int size);
+
 	void Script1();
 	bool Script2();
 	bool Script3();

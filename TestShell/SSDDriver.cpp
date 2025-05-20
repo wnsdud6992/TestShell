@@ -43,3 +43,6 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	inputFile.close();
 	return std::stoul(readvalue, nullptr, 16);
 }
+void erase(unsigned int address, int size) {
+	//[TODO] : make erase function
+}

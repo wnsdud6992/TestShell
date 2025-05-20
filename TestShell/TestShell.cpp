@@ -68,7 +68,7 @@ unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>
 }
 
 void TestShell::fullwrite(unsigned int data) {
-    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+    for(unsigned int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
 }
@@ -99,6 +99,10 @@ std::vector<unsigned int> TestShell::fullread() {
 
 bool TestShell::readCompare(unsigned int address, unsigned int value) {
     return read(address) == value;
+}
+
+void TestShell::erase(unsigned int adress, int size){
+    driver->erase(adress, size);
 }
 
 void TestShell::Script1() {
