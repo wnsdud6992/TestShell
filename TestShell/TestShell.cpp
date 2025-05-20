@@ -38,9 +38,6 @@ std::pair<std::string, std::string> TestShell::commandParsing(const std::string&
     iss >> command;
     std::getline(iss, parameter);
 
-    if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
-        throw CustomException("INVALID COMMAND");
-    }
     return { command, parameter };
 }
 
