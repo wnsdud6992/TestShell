@@ -3,6 +3,7 @@
 #include "gmock/gmock.h"
 
 #include <iostream>
+#include <algorithm>
 
 using namespace testing;
 
@@ -101,8 +102,15 @@ bool TestShell::readCompare(unsigned int address, unsigned int value) {
     return read(address) == value;
 }
 
-void TestShell::erase(unsigned int adress, int size){
-    driver->erase(adress, size);
+void TestShell::erase(unsigned int address, int size){
+    driver->erase(address, size);
+}
+
+void TestShell::erase_range(unsigned int start_address, unsigned int end_size){
+    if (start_address > end_size)
+        std::swap(start_address, end_size);
+    int size = (end_size - start_address) + 1;
+    driver->erase(start_address, size);
 }
 
 void TestShell::Script1() {

@@ -23,6 +23,7 @@ public:
 	bool readCompare(unsigned int address, unsigned int value);
 
 	void erase(unsigned int adress, int size);
+	void erase_range(unsigned int start_adress, unsigned int end_size);
 
 	void Script1();
 	bool Script2();
