@@ -41,5 +41,16 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	}
 
 	inputFile.close();
-	return std::stoul(readvalue, nullptr, 16);
+	return std::stoul(readvalue, nullptr, 0);
+}
+void SSDDriver::erase(unsigned int address, unsigned int size) {
+	//[TODO] : make erase function
+	std::string SSD_exe_Eraseparam = "";
+	std::ostringstream oss;
+	oss << "E " << address << " " << size;
+	if (size > MAX_ERASE_SIZE || size < 0) {
+		throw CustomException("Erase size range error");
+	}
+	SSD_exe_Eraseparam += oss.str();
+	runSSDWithParam(SSD_exe_Eraseparam);
 }

@@ -28,6 +28,10 @@ int main() {
               unsigned int address = testShell->CheckReadParamValid(parameter);
               testShell->read(address);
             }
+            else if (command == "erase") {
+            }
+            else if (command == "erase_range") {
+            }
             else if (command == "help") {
                 testShell->help();
             }
@@ -61,6 +65,7 @@ int main() {
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;
         }
+        Sleep(10);
     }
     return 0;
 #endif

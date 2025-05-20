@@ -3,6 +3,7 @@
 #include "gmock/gmock.h"
 
 #include <iostream>
+#include <algorithm>
 
 using namespace testing;
 
@@ -57,6 +58,7 @@ std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std
 }
 
 void TestShell::write(unsigned int address, unsigned int data){
+    Logger::LogPrint("TestShell", __func__, "Write ½ÃÀÛ!!!");
 	driver->write(address, data);
 }
 
@@ -68,7 +70,7 @@ unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>
 }
 
 void TestShell::fullwrite(unsigned int data) {
-    for(int address_index = TestShell::ADDRESS_RANGE_MIN; address_index <= TestShell::ADDRESS_RANGE_MAX; address_index++){
+    for(unsigned int address_index = ADDRESS_RANGE_MIN; address_index <= ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
 }
@@ -99,6 +101,43 @@ std::vector<unsigned int> TestShell::fullread() {
 
 bool TestShell::readCompare(unsigned int address, unsigned int value) {
     return read(address) == value;
+}
+
+void TestShell::erase(unsigned int address, int size) {
+    if (address > ADDRESS_RANGE_MAX) {
+        throw CustomException("erase inuput address range over");
+    }
+    //check minus size
+    if (size < 0) {
+        int calcAddress = (address + size + 1);
+        size *= (-1);
+        //check under address
+        if (calcAddress < 0) {
+            size = (calcAddress + size);
+            calcAddress = 0;
+        }
+        address = calcAddress;
+    }
+    
+    //check over address
+    if ((address + size) > ADDRESS_RANGE_MAX)
+        size = (ADDRESS_RANGE_MAX - address + 1);
+    
+    //check over size
+    while (size > MAX_ERASE_SIZE) {
+        driver->erase(address, MAX_ERASE_SIZE);
+        size -= MAX_ERASE_SIZE;
+        address += MAX_ERASE_SIZE;
+    }
+    if (size > 0)
+        driver->erase(address, size);
+}
+
+void TestShell::erase_range(unsigned int start_address, unsigned int end_size) {
+    if (start_address > end_size)
+        std::swap(start_address, end_size);
+    int size = (end_size - start_address) + 1;
+    driver->erase(start_address, size);
 }
 
 void TestShell::Script1() {
@@ -138,10 +177,10 @@ bool TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
-        driver->write(TestShell::ADDRESS_RANGE_MIN, randomData);
+        driver->write(ADDRESS_RANGE_MIN, randomData);
         driver->write(99, randomData);
 
-        if (!(readCompare(TestShell::ADDRESS_RANGE_MIN, randomData) && readCompare(TestShell::ADDRESS_RANGE_MAX, randomData)))
+        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
             return false;
     }
     return true;
