@@ -12,8 +12,9 @@ void Runner::runFromFile(const std::string& filepath) {
 
     std::string line;
     while (std::getline(file, line)) {
+        std::cout << "Run....";
         bool result = handleCommand(line);
-        std::cout << "Run...." << (result ? "pass" : "fail") << std::endl;
+        std::cout << (result ? "pass" : "fail") << std::endl;
     }
 }
 
