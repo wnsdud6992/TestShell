@@ -102,11 +102,21 @@ bool TestShell::readCompare(unsigned int address, unsigned int value) {
     return read(address) == value;
 }
 
-void TestShell::erase(unsigned int address, int size){
-    driver->erase(address, size);
+void TestShell::erase(unsigned int address, int size) {
+    if (size < 0)
+        size *= (-1);
+
+    const int MAX_ERASE_SIZE = 10;
+    while (size > MAX_ERASE_SIZE) {
+        driver->erase(address, MAX_ERASE_SIZE);
+        size -= MAX_ERASE_SIZE;
+        address += MAX_ERASE_SIZE;
+    }
+    if (size > 0)
+        driver->erase(address, size);
 }
 
-void TestShell::erase_range(unsigned int start_address, unsigned int end_size){
+void TestShell::erase_range(unsigned int start_address, unsigned int end_size) {
     if (start_address > end_size)
         std::swap(start_address, end_size);
     int size = (end_size - start_address) + 1;
