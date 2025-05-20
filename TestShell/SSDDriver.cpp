@@ -18,9 +18,8 @@ unsigned int SSDDriver::read(unsigned int address) {
 }
 
 void SSDDriver::runSSDWithParam(const std::string& param) {
-	std::string path = "C:\\Users\\User\\source\\repos\\TestShell\\TestShell\\SSD.exe";
-	std::string command = "\"" + path + "\" " + param;
-	std::cout << "Command: " << command << std::endl;
+	std::string command = "\"" + SSDexe_Path + "\" " + param;
+	std::cout << "Command: " << command << std::endl;  // Todo. 추후 제거
 	int result = std::system(command.c_str());
 	// std::cout << "Exit code: " << result << std::endl;
 }

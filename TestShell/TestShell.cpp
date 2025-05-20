@@ -32,21 +32,52 @@ void TestShell::help() {
     std::cout << std::endl;
 }
 
-std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string& param) {
-    std::vector<unsigned int> parameter;
+std::pair<std::string, std::string> TestShell::commandParsing(const std::string& param) {
+    std::string parameter = "";
     std::string command;
     std::istringstream iss(param);
 
-    if (iss >> command) {
-        std::string token;
-        while (iss >> token) {
-            parameter.push_back(std::stoul(token, nullptr, 0));
-        }
-    }
+    iss >> command;
+    std::getline(iss, parameter);
+
     if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
         throw CustomException("INVALID COMMAND");
     }
     return { command, parameter };
+}
+
+std::pair<unsigned int, int> TestShell::EraseParamParsing(const std::string& parameter) {
+    unsigned int LBA;
+    int size;
+    std::istringstream iss(parameter);
+
+    std::string param;
+    std::vector<std::string> paramList;
+
+    while (iss >> param) {
+        paramList.push_back(param);
+    }
+
+    if (paramList.size() >= 3) {
+        throw CustomException("Error: Too many parameters! Only two allowed.");
+    }
+    else {
+        LBA = std::stoul(paramList[0], nullptr, 0);
+        size = std::stoi(paramList[1]);
+    }
+
+    return { LBA, size };
+}
+
+std::vector<unsigned int> TestShell::normalParamParsing(const std::string& param) {
+    std::vector<unsigned int> parameter;
+
+    std::istringstream iss(param);
+    std::string token;
+    while (iss >> token) {
+        parameter.push_back(std::stoul(token, nullptr, 0));
+    }
+    return parameter;
 }
 
 std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std::vector<unsigned int> &command_param) {

@@ -10,7 +10,9 @@ public:
 
 	
 	void help();
-	std::pair<std::string, std::vector<unsigned int>> parameterParsing(std::string& param);
+	std::pair<std::string, std::string> commandParsing(const std::string& param);
+	std::pair<unsigned int, int> EraseParamParsing(const std::string& param);
+	std::vector<unsigned int> normalParamParsing(const std::string& param);
 
    std::pair<unsigned int, unsigned int > CheckWriteParamValid(const std::vector<unsigned int>& command_param);
 	void write(unsigned int address, unsigned int data);
