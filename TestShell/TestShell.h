@@ -3,8 +3,6 @@
 #include <iostream>
 class TestShell {
 public:
-	const unsigned int ADDRESS_RANGE_MIN = 0;
-	const unsigned int ADDRESS_RANGE_MAX = 99;
 
 	TestShell(IDriver* driver_);
 
@@ -21,6 +19,10 @@ public:
 	unsigned int read(unsigned int address);
 	std::vector<unsigned int> fullread();
 	bool readCompare(unsigned int address, unsigned int value);
+
+	void erase(unsigned int adress, int size);
+	void erase_range(unsigned int start_adress, unsigned int end_size);
+
 	void Script1();
 	bool Script2();
 	bool Script3();
