@@ -11,8 +11,11 @@ public:
     Logger(const Logger&) = delete;
     Logger& operator=(const Logger&) = delete;
 
-	void LogPrint(const std::string& className, const std::string& methodName, const std::string& detail);
+    static void LogPrint(const std::string& className, const std::string& methodName, const std::string& detail);
+
+    static void CheckLogFileToChange();
 
 private:
     Logger() {}
+    
 };
