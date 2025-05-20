@@ -32,12 +32,12 @@ bool Runner::handleCommand(const std::string& command) {
             shell->Script3();
             return true;
         }
-        //else if (command == "4_EraseAndWriteAging") {
-        //    shell.erase
-        //}
+        else if (command == "4_EraseAndWriteAging") {
+            shell->Script4();
+            return true;
+        }
     }
     catch (...) {
-        // ½ÇÆÐ ½Ã catch
     }
 
     return false;
