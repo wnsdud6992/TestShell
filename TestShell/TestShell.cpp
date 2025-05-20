@@ -30,21 +30,52 @@ void TestShell::help() {
     std::cout << std::endl;
 }
 
-std::pair<std::string, std::vector<unsigned int>> TestShell::parameterParsing(std::string& param) {
-    std::vector<unsigned int> parameter;
+std::pair<std::string, std::string> TestShell::commandParsing(const std::string& param) {
+    std::string parameter = "";
     std::string command;
     std::istringstream iss(param);
 
-    if (iss >> command) {
-        std::string token;
-        while (iss >> token) {
-            parameter.push_back(std::stoul(token, nullptr, 0));
-        }
-    }
+    iss >> command;
+    std::getline(iss, parameter);
+
     if (std::find(validCommands.begin(), validCommands.end(), command) == validCommands.end()) {
         throw CustomException("INVALID COMMAND");
     }
     return { command, parameter };
+}
+
+std::pair<unsigned int, int> TestShell::EraseParamParsing(const std::string& parameter) {
+    unsigned int LBA;
+    int size;
+    std::istringstream iss(parameter);
+
+    std::string param;
+    std::vector<std::string> paramList;
+
+    while (iss >> param) {
+        paramList.push_back(param);
+    }
+
+    if (paramList.size() >= 3) {
+        throw CustomException("Error: Too many parameters! Only two allowed.");
+    }
+    else {
+        LBA = std::stoul(paramList[0], nullptr, 0);
+        size = std::stoi(paramList[1]);
+    }
+
+    return { LBA, size };
+}
+
+std::vector<unsigned int> TestShell::normalParamParsing(const std::string& param) {
+    std::vector<unsigned int> parameter;
+
+    std::istringstream iss(param);
+    std::string token;
+    while (iss >> token) {
+        parameter.push_back(std::stoul(token, nullptr, 0));
+    }
+    return parameter;
 }
 
 std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std::vector<unsigned int> &command_param) {
@@ -183,6 +214,27 @@ bool TestShell::Script3(){
 
         if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
             return false;
+    }
+    return true;
+}
+
+bool TestShell::Script4() {
+    driver->erase(0, 3);
+    for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
+            driver->write(base_addr, data);
+            if (!readCompare(base_addr, data)) return false;
+            driver->write(base_addr, data+1);
+            if (!readCompare(base_addr, data+1)) return false;
+            driver->erase(base_addr, 3);
+            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
+                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
+                    return false;
+                }
+            }
+        }
     }
     return true;
 }
