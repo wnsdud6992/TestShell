@@ -24,7 +24,9 @@ public:
 };
 
 inline std::vector<std::string> validCommands = {
-"write", "read", "exit", "help", "fullwrite", "fullread", "1_", "1_FullWriteAndReadCompare", "2_", "2_PartialLBAWrite", "3_", "3_WriteReadAging"
+"write", "read", "exit", "help", "fullwrite", "fullread", 
+"1_", "1_FullWriteAndReadCompare", "2_", "2_PartialLBAWrite", "3_", "3_WriteReadAging",
+"erase", "erase_range"
 };
 
 constexpr const int MAX_ERASE_SIZE = 10;

@@ -28,6 +28,10 @@ int main() {
               unsigned int address = testShell->CheckReadParamValid(parameter);
               testShell->read(address);
             }
+            else if (command == "erase") {
+            }
+            else if (command == "erase_range") {
+            }
             else if (command == "help") {
                 testShell->help();
             }
