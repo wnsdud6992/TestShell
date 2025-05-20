@@ -146,11 +146,15 @@ void TestShell::erase(unsigned int address, int size) {
         }
         address = calcAddress;
     }
-    
+
+    runEraseCommand(address, size);
+}
+
+void TestShell::runEraseCommand(unsigned int address, int size)
+{
     //check over address
     if ((address + size) > ADDRESS_RANGE_MAX)
         size = (ADDRESS_RANGE_MAX - address + 1);
-    
     //check over size
     while (size > MAX_ERASE_SIZE) {
         driver->erase(address, MAX_ERASE_SIZE);
@@ -161,11 +165,12 @@ void TestShell::erase(unsigned int address, int size) {
         driver->erase(address, size);
 }
 
-void TestShell::erase_range(unsigned int start_address, unsigned int end_size) {
-    if (start_address > end_size)
-        std::swap(start_address, end_size);
-    int size = (end_size - start_address) + 1;
-    driver->erase(start_address, size);
+void TestShell::erase_range(unsigned int start_address, unsigned int end_address) {
+    if (start_address > end_address)
+        std::swap(start_address, end_address);
+    int size = (end_address - start_address) + 1;
+
+    runEraseCommand(start_address, size);
 }
 
 void TestShell::flush() {

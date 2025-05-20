@@ -23,7 +23,8 @@ public:
 	bool readCompare(unsigned int address, unsigned int value);
 
 	void erase(unsigned int adress, int size);
-	void erase_range(unsigned int start_adress, unsigned int end_size);
+	void runEraseCommand(unsigned int address, int size);
+	void erase_range(unsigned int start_address, unsigned int end_address);
 
 	void flush();
 
