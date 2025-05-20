@@ -3,7 +3,7 @@
 #include "Runner.h"
 #include "CommandFactory.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 #ifdef _DEBUG 
     testing::InitGoogleMock();
     return RUN_ALL_TESTS();
@@ -12,16 +12,23 @@ int main() {
     std::cout << "What kind of driver do you want to test?" << std::endl;
     std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
     SSDDriver ssdDriver;
+    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo 추후 factory화 하여 사용자로부터 입력받은 driver로 실행
+    
     SSDDriver runnerSsdDriver;
     std::ostringstream dummyOut;
     runnerSsdDriver.setoutput(&dummyOut);
-
-    std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(&ssdDriver); // todo 추후 factory화 하여 사용자로부터 입력받은 driver로 실행
     TestShell runnerTestShell(&runnerSsdDriver, dummyOut);
     std::unique_ptr<Runner> runner = std::make_unique<Runner>(&runnerTestShell);
     std::unique_ptr<TestShellCommandFactory> testShellCmdFactory = std::make_unique<TestShellCommandFactory>(testShell);
 
     std::string userInput;
+
+    if (argc == 2) {
+        std::string runCommand = argv[1];
+        runner->runFromFile(runCommand);
+        return 0;
+    }
+
     while (true) {
         std::cout << "Shell> ";
         try {
