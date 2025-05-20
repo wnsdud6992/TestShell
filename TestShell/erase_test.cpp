@@ -84,3 +84,9 @@ TEST_F(EraseFixture, EraseTestPDF) {
 	EXPECT_CALL(mockdriver, erase(20, 1)).Times(1);
 	testshell.erase(20, -99);
 }
+
+TEST_F(EraseFixture, flushTest) {
+	EXPECT_CALL(mockdriver, flush).Times(1);
+	testshell.flush();
+
+}
