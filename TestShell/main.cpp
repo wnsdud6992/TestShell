@@ -14,6 +14,7 @@ int main() {
     std::unique_ptr<TestShellCommandFactory> testShellCmdFactory = std::make_unique<TestShellCommandFactory>(testShell);
 
     std::string userInput;
+
     while (true) {
         std::cout << "Shell> ";
         try {
