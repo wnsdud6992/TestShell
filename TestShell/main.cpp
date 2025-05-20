@@ -47,6 +47,9 @@ int main() {
             else if (command == "3_WriteReadAging" || command == "3_") {
                 testShell->Script3();
             }
+            else if (command == "4_EraseAndWriteAging" || command == "4_") {
+                testShell->Script4();
+            }
             else if (command == "exit") {
                 std::cout << "Thank you and bye~";
                 break;

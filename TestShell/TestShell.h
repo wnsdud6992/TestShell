@@ -24,8 +24,8 @@ public:
 	void Script1();
 	bool Script2();
 	bool Script3();
+	bool Script4();
 
-	
 private:
 	IDriver* driver;
 
