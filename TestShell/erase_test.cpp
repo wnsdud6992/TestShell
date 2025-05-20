@@ -13,6 +13,7 @@ public:
 	const unsigned int LBA_10 = 10;
 	const unsigned int LBA_20 = 20;
 	const unsigned int MAX_LBA = 100 - 1;
+	const unsigned int SIZE_0 = 0;
 	const unsigned int SIZE_1 = 1;
 	const unsigned int SIZE_10 = 10;
 	const unsigned int SIZE_11 = 11;
@@ -21,6 +22,12 @@ public:
 	const int MINUS_SIZE_99 = -99;
 };
 
+TEST_F(EraseFixture, ZeroErase) {
+	EXPECT_CALL(mockdriver, erase(_, _)).Times(0);
+	testshell.erase(LBA_0, SIZE_0);
+	EXPECT_THROW(testshell.erase(100, SIZE_1), CustomException);
+
+}
 TEST_F(EraseFixture, NormalErase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testshell.erase(LBA_0, SIZE_10);

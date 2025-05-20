@@ -104,6 +104,9 @@ bool TestShell::readCompare(unsigned int address, unsigned int value) {
 }
 
 void TestShell::erase(unsigned int address, int size) {
+    if (address > ADDRESS_RANGE_MAX) {
+        throw CustomException("erase inuput address range over");
+    }
     //check minus size
     if (size < 0) {
         int calcAddress = (address + size + 1);
