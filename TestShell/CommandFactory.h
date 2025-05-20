@@ -23,7 +23,7 @@ public:
             commandMap[command]();
         }
         else {
-            std::cout << "Unknown command. Please try again." << std::endl;
+            throw CustomException("INVALID COMMAND");
         }
     }
 private:
@@ -44,6 +44,16 @@ private:
         }},
         {"help", [&]() {
             testShell->help();
+        }},
+        {"erase", [&]() {
+            testShell->erase(eraseParam.first, eraseParam.second);
+        }},
+        {"flush", [&]() {
+            
+        }},
+        {"erase_range", [&]() {
+            auto [StartAddress, EndAddress] = testShell->CheckWriteParamValid(parameter);
+            testShell->erase_range(StartAddress, EndAddress);
         }},
         {"fullwrite", [&]() {
             unsigned int data = testShell->CheckFullWriteParamValid(parameter);
@@ -69,6 +79,12 @@ private:
         }},
         {"3_", [&]() {
             testShell->Script3();
+        }},
+        {"4_EraseAndWriteAging", [&]() {
+            testShell->Script4();
+        }},
+        {"4_", [&]() {
+            testShell->Script4();
         }},
         {"exit", [&]() {
             std::cout << "Thank you and bye~" << std::endl;
