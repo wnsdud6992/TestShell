@@ -147,6 +147,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="IDriver.h" />
     <ClInclude Include="Logger.h" />
