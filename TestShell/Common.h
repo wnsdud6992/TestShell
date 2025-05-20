@@ -35,8 +35,9 @@ constexpr unsigned int ADDRESS_RANGE_MAX = 99;
 const int RAND_SEED = 99;
 constexpr int Script1_TotalLoopCount = 20;
 constexpr int Script1_OnceLoopCount = 5;
+
 constexpr unsigned int ScriptTest_Value = 0x1289CDEF;
-const std::string SSD_OutPutFile = "ssd_output.txt";
+
 constexpr int Script2_TotalLoopCount = 30;
 constexpr unsigned int Script2_Address[5] = { 4, 0, 3, 1, 2 };
 constexpr unsigned int Script2Test_Value = 0x1289CDEF;
