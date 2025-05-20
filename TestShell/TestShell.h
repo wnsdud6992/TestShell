@@ -6,7 +6,7 @@ public:
 	const unsigned int ADDRESS_RANGE_MIN = 0;
 	const unsigned int ADDRESS_RANGE_MAX = 99;
 
-	TestShell(IDriver* driver_);
+	TestShell(IDriver* driver_, std::ostream& output_ = std::cout);
 
 	
 	void help();
@@ -28,6 +28,7 @@ public:
 	
 private:
 	IDriver* driver;
+	std::ostream& out;
 
 	void writeWithNewParam(unsigned int address, unsigned int writevalue);
 	unsigned int readWithNewParam(unsigned int address);
