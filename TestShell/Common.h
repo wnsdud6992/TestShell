@@ -64,7 +64,7 @@ constexpr unsigned int Script4_EndAddress = 96;
 
 
 enum class driverType {
-    SSD,
+    SSD = 1,
     HDD,
     SD_Card,
     eMMC,
