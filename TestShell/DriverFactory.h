@@ -6,7 +6,7 @@
 
 class DriverFactory {
 public:
-	static std::unique_ptr<IDriver> driverFactory(const std::string &type) {
+	static std::unique_ptr<IDriver> driverFactory(std::string &type) {
 		std::istringstream iss(type);
 		std::vector<std::string> param;
 		std::string token;
@@ -14,18 +14,21 @@ public:
 			param.push_back(token);
 		}
 		if (param.size() != 1) {
-			throw CustomException("Select only 1 driver!");
+			std::cerr << "여러개의 driver를 선택하셨습니다. 한개만 선택해주세요." << std::endl << std::endl;
+			return nullptr;
 		}
-		driverType Type;
 
+		driverType Type;
 		try {
 			Type = static_cast<driverType>(std::stoi(type));
 		}
 		catch (const std::invalid_argument&) {
-			throw CustomException("[Error] 숫자로 변환할 수 없는 문자\n");
+			std::cerr << "[Error] 숫자로 변환할 수 없는 문자입니다. 다시 입력하세요." << std::endl << std::endl;
+			return nullptr;
 		}
 		catch (const std::out_of_range&) {
-			throw CustomException("[Error] 숫자가 너무 큽니다");
+			std::cerr << "[Error] 숫자가 너무 큽니다. 다시 입력하세요." << std::endl << std::endl;
+			return nullptr;
 		}
 		
 		switch (Type) {

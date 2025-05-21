@@ -18,8 +18,6 @@ const std::string LogFileName = "latest.log";
 constexpr std::uintmax_t LogFileMaxSize = 10 * 1024;
 const std::string SSDexe_Path = ".\\SSD.exe";
 
-
-
 constexpr const int MAX_ERASE_SIZE = 10;
 constexpr unsigned int ADDRESS_RANGE_MIN = 0;
 constexpr unsigned int ADDRESS_RANGE_MAX = 99;
