@@ -14,8 +14,7 @@ TEST(Script3WriteReadAging, DISABLED_NormalPass) {
 	EXPECT_CALL(mockdriver, read(ADDRESS_RANGE_MIN)).Times(Script3_TotalLoopCount).WillRepeatedly(Return(random_number));
 	EXPECT_CALL(mockdriver, read(ADDRESS_RANGE_MAX)).Times(Script3_TotalLoopCount).WillRepeatedly(Return(random_number));
 	
-	EXPECT_TRUE(testshell.Script3());
-
+	testshell.Script3();
 }
 
 TEST(Script3WriteReadAging, NotSameReadFail) {
@@ -27,6 +26,5 @@ TEST(Script3WriteReadAging, NotSameReadFail) {
 	EXPECT_CALL(mockdriver, write(ADDRESS_RANGE_MAX, random_number)).Times(1);
 	EXPECT_CALL(mockdriver, read(ADDRESS_RANGE_MIN)).Times(1).WillRepeatedly(Return(0));
 	
-	EXPECT_FALSE(testshell.Script3());
-
+	testshell.Script3();
 }

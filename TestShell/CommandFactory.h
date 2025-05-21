@@ -1,94 +1,63 @@
 #pragma once
 #include "Common.h"
-#include "TestShell.h"
+#include "Command.h"
 
-class TestShellCommandFactory {
+
+class CommandFactory {
 public:
-    TestShellCommandFactory(std::unique_ptr<TestShell>& _testShell) {
-        testShell = std::move(_testShell);
+    CommandFactory() {
+        CommandMap["help"] = [](const std::string& args) {
+            return std::make_unique<HelpCommand>(args);
+            };
+        CommandMap["read"] = [](const std::string& args) {
+            return std::make_unique<ReadCommand>(args);
+            };
+        CommandMap["fullread"] = [](const std::string& args) {
+            return std::make_unique<FullReadCommand>(args);
+            };
+        CommandMap["write"] = [](const std::string& args) {
+            return std::make_unique<WriteCommand>(args);
+            };
+        CommandMap["fullwrite"] = [](const std::string& args) {
+            return std::make_unique<FullWriteCommand>(args);
+            };
+        CommandMap["erase"] = [](const std::string& args) {
+            return std::make_unique<EraseCommand>(args);
+            };
+        CommandMap["erase_range"] = [](const std::string& args) {
+            return std::make_unique<EraseRangeCommand>(args);
+            };
+        CommandMap["flush"] = [](const std::string& args) {
+            return std::make_unique<FlushCommand>(args);
+            };
+        CommandMap["Script1"] = [](const std::string& args) {
+            return std::make_unique<Script1Command>(args);
+            };
+        CommandMap["Script2"] = [](const std::string& args) {
+            return std::make_unique<Script2Command>(args);
+            };
+        CommandMap["Script3"] = [](const std::string& args) {
+            return std::make_unique<Script3Command>(args);
+            };
+        CommandMap["Script4"] = [](const std::string& args) {
+            return std::make_unique<Script4Command>(args);
+            };
     }
 
-    void executeCommand(const std::string & userInput) {
-        auto [command_, parameter_] = testShell->commandParsing(userInput);
-        command = command_;
-        if (command == "erase") {
-            eraseParam = testShell->EraseParamParsing(parameter_);
-        }
-        else {
-            parameter = testShell->normalParamParsing(parameter_);
-        }
-        
+    std::unique_ptr<ICommand> parse(const std::string& input) {
+        std::istringstream iss(input);
+        std::string cmd;
+        std::string parameter;
+        iss >> cmd;
+        std::getline(iss, parameter);
 
-        if (commandMap.contains(command)) {
-            commandMap[command]();
+        auto iter = CommandMap.find(cmd);
+        if (iter == CommandMap.end()) {
+            throw CustomException("INVALID COMMAND\n");
         }
-        else {
-            throw CustomException("INVALID COMMAND");
-        }
+
+        return iter->second(parameter);
     }
 private:
-    std::unique_ptr<TestShell> testShell;
-    std::vector<unsigned int> parameter;
-    std::string command;
-    std::pair<unsigned int, int> eraseParam;
-
-
-    std::unordered_map<std::string, std::function<void()>> commandMap = {
-        {"write", [&]() {
-            auto [address, data] = testShell->CheckWriteParamValid(parameter);
-            testShell->write(address, data);
-        }},
-        {"read", [&]() {
-            unsigned int address = testShell->CheckReadParamValid(parameter);
-            testShell->read(address);
-        }},
-        {"help", [&]() {
-            testShell->help();
-        }},
-        {"erase", [&]() {
-            testShell->erase(eraseParam.first, eraseParam.second);
-        }},
-        {"flush", [&]() {
-            
-        }},
-        {"erase_range", [&]() {
-            auto [StartAddress, EndAddress] = testShell->CheckWriteParamValid(parameter);
-            testShell->erase_range(StartAddress, EndAddress);
-        }},
-        {"fullwrite", [&]() {
-            unsigned int data = testShell->CheckFullWriteParamValid(parameter);
-            testShell->fullwrite(data);
-        }},
-        {"fullread", [&]() {
-            testShell->fullread();
-        }},
-        {"1_FullWriteAndReadCompare", [&]() {
-            testShell->Script1();
-        }},
-        {"1_", [&]() {
-            testShell->Script1();
-        }},
-        {"2_PartialLBAWrite", [&]() {
-            testShell->Script2();
-        }},
-        {"2_", [&]() {
-            testShell->Script2();
-        }},
-        {"3_WriteReadAging", [&]() {
-            testShell->Script3();
-        }},
-        {"3_", [&]() {
-            testShell->Script3();
-        }},
-        {"4_EraseAndWriteAging", [&]() {
-            testShell->Script4();
-        }},
-        {"4_", [&]() {
-            testShell->Script4();
-        }},
-        {"exit", [&]() {
-            std::cout << "Thank you and bye~" << std::endl;
-            exit(0);
-    }},
-    };
+    std::map<std::string, std::function<std::unique_ptr<ICommand>(const std::string&)>> CommandMap;
 };

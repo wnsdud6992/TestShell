@@ -1,44 +1,31 @@
 #pragma once
 #include "IDriver.h"
 #include <iostream>
+
 class TestShell {
 public:
-
 	TestShell(IDriver* driver_, std::ostream& output_ = std::cout);
-
 	
 	void help();
-	std::pair<std::string, std::string> commandParsing(const std::string& param);
-	std::pair<unsigned int, int> EraseParamParsing(const std::string& param);
-	std::vector<unsigned int> normalParamParsing(const std::string& param);
-
-   std::pair<unsigned int, unsigned int > CheckWriteParamValid(const std::vector<unsigned int>& command_param);
-	void write(unsigned int address, unsigned int data);
-	unsigned int CheckFullWriteParamValid(const std::vector<unsigned int>& command_param);
-	void fullwrite(unsigned int data);
-
-	unsigned int CheckReadParamValid(const std::vector<unsigned int>& param);
 	unsigned int read(unsigned int address);
 	std::vector<unsigned int> fullread();
-	bool readCompare(unsigned int address, unsigned int value);
-
+	void write(unsigned int address, unsigned int data);
+	void fullwrite(unsigned int data);
 	void erase(unsigned int adress, int size);
-	void runEraseCommand(unsigned int address, int size);
 	void erase_range(unsigned int start_address, unsigned int end_address);
-
 	void flush();
-
 	void Script1();
-	bool Script2();
-	bool Script3();
-	bool Script4();
+	void Script2();
+	void Script3();
+	void Script4();
+
+	bool readCompare(unsigned int address, unsigned int value);
 
 private:
 	IDriver* driver;
 	std::ostream& out;
 
-	void writeWithNewParam(unsigned int address, unsigned int writevalue);
-	unsigned int readWithNewParam(unsigned int address);
 	void writeFive(int loopCnt);
 	bool readCompareFive(int address);
+	void runEraseCommand(unsigned int address, int size);
 };
