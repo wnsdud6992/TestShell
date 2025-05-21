@@ -229,7 +229,6 @@ bool TestShell::readCompareFive(int loopCnt) {
         unsigned int address = loopCnt * Script1_OnceLoopCount + iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
         if (read(address) != expectedValue) {
-            out << "FAIL";
             return false;
         }
     }
