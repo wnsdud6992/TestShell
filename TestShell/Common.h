@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <gmock/gmock.h>
 #include <iostream>
 #include <string>
@@ -55,6 +55,19 @@ inline std::string toHexString(unsigned int value) {
     std::stringstream ss;
     ss << "0x" << std::setw(8) << std::setfill('0') << std::hex << value;
     return ss.str();
+}
+
+inline unsigned int stringToUint(std::string str)
+{
+	try {
+		return std::stoul(str, nullptr, 0);
+	}
+	catch (const std::invalid_argument&) {
+		throw CustomException((std::string("[Error] 숫자로 변환할 수 없는 문자열: ") + str).c_str());
+	}
+	catch (const std::out_of_range&) {
+		throw CustomException((std::string("[Error] 숫자가 너무 큽니다: ") + str).c_str());
+	}
 }
 
 constexpr int Script4_TotalLoopCount = 30;

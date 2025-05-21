@@ -144,7 +144,7 @@ bool TestShell::Script3(){
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
         driver->write(ADDRESS_RANGE_MIN, randomData);
-        driver->write(99, randomData);
+        driver->write(ADDRESS_RANGE_MAX, randomData);
 
         if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
             out << "FAIL " << std::endl;

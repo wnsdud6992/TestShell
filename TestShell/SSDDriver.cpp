@@ -68,16 +68,7 @@ unsigned int SSDDriver::readSSDOutputFile() {
 
 	inputFile.close();
 
-	unsigned int result_readvalue = 0;
-	try {
-		result_readvalue = std::stoul(readvalue, nullptr, 0);
-	}
-	catch (const std::invalid_argument&) {
-		throw CustomException((std::string("[Error] 숫자로 변환할 수 없는 문자열: ") + readvalue).c_str());
-	}
-	catch (const std::out_of_range&) {
-		throw CustomException((std::string("[Error] 숫자가 너무 큽니다: ") + readvalue).c_str());
-	}
-
-	return result_readvalue;
+	return stringToUint(readvalue);
 }
+
+
