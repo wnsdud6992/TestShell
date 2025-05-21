@@ -16,11 +16,11 @@
 using ParamType = std::variant<unsigned int, int>;
 
 const std::string SSD_OutPutFile = "ssd_output.txt";
-const std::string LogDir = "C:\\Users\\User\\source\\repos\\TestShell\\x64\\Release\\Log";
+const std::string LogDir = ".\\Log";
 const std::string LogFileName = "latest.log";
 constexpr std::uintmax_t LogFileMaxSize = 10 * 1024;
 
-const std::string SSDexe_Path = "C:\\Users\\User\\source\\repos\\TestShell\\x64\\Release\\SSD.exe";
+const std::string SSDexe_Path = ".\\SSD.exe";
 
 class CustomException : public std::exception {
 public:
