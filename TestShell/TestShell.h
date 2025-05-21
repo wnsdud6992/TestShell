@@ -4,7 +4,7 @@
 
 class TestShell {
 public:
-	TestShell(IDriver* driver_, std::ostream& output_ = std::cout);
+	TestShell(std::unique_ptr<IDriver> driver_, std::ostream& output_ = std::cout);
 	
 	void help();
 	unsigned int read(unsigned int address);
@@ -22,7 +22,7 @@ public:
 	bool readCompare(unsigned int address, unsigned int value);
 
 private:
-	IDriver* driver;
+	std::unique_ptr<IDriver> driver;
 	std::ostream& out;
 
 	void writeFive(int loopCnt);

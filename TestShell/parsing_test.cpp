@@ -6,7 +6,8 @@ using namespace testing;
 class ParsingFixture : public Test {
 public:
 	MockDriver mockdriver;
-	TestShell testshell{ &mockdriver };
+	std::unique_ptr<MockDriver> driver = std::make_unique<MockDriver>();
+	std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(std::move(driver));
 	std::string ReadStr = "read 20";
 	std::string WriteStr = "write 3 0x1289CDEF";
 	std::string InvalidCommandStr = "wrote 3 0x1289CDEF 0x1289AAAF";

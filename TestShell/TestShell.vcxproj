@@ -151,6 +151,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DriverFactory.h" />
     <ClInclude Include="IDriver.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MockDriver.h" />
