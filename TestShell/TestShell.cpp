@@ -4,7 +4,7 @@
 
 using namespace testing;
 
-TestShell::TestShell(IDriver* driver_, std::ostream& output_) : driver(driver_), out(output_) {}
+TestShell::TestShell(std::unique_ptr<IDriver> driver_, std::ostream& output_) : driver{std::move(driver_)}, out(output_) {}
 
 void TestShell::help() {
     out << "\nÆÀ¸í : Critical Coders\n";
@@ -31,21 +31,28 @@ void TestShell::help() {
 }
 
 void TestShell::write(unsigned int address, unsigned int data){
-    Logger::LogPrint("TestShell", __func__, "Write ½ÃÀÛ!!!");
+    Logger::LogPrint("TestShell", __func__, "write start");
 	driver->write(address, data);
+    Logger::LogPrint("TestShell", __func__, "write end");
 }
 
 void TestShell::fullwrite(unsigned int data) {
+    Logger::LogPrint("TestShell", __func__, "fullwrite start");
     for(unsigned int address_index = ADDRESS_RANGE_MIN; address_index <= ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
+    Logger::LogPrint("TestShell", __func__, "fullwrite end");
 }
 
 unsigned int TestShell::read(unsigned int address) {
-    return driver->read(address);
+    Logger::LogPrint("TestShell", __func__, "read start");
+    unsigned int readData = driver->read(address);
+    Logger::LogPrint("TestShell", __func__, "read end");
+    return readData;
 }
 
 std::vector<unsigned int> TestShell::fullread() {
+    Logger::LogPrint("TestShell", __func__, "fullread start");
     std::vector<unsigned int> readDataList;
     out << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
@@ -54,6 +61,7 @@ std::vector<unsigned int> TestShell::fullread() {
         out << "[Read]" << " LBA " << lba << " : " << "0x" << std::setw(8) << std::setfill('0') << std::hex << data << std::endl;
         readDataList.push_back(data);
     }
+    Logger::LogPrint("TestShell", __func__, "fullread end");
     return readDataList;
 }
 
@@ -62,6 +70,7 @@ bool TestShell::readCompare(unsigned int address, unsigned int value) {
 }
 
 void TestShell::erase(unsigned int address, int size) {
+    Logger::LogPrint("TestShell", __func__, "erase start");
     if (address > ADDRESS_RANGE_MAX) {
         throw CustomException("erase inuput address range over");
     }
@@ -77,6 +86,110 @@ void TestShell::erase(unsigned int address, int size) {
         address = calcAddress;
     }
     runEraseCommand(address, size);
+    Logger::LogPrint("TestShell", __func__, "erase end");
+}
+
+void TestShell::erase_range(unsigned int start_address, unsigned int end_address) {
+    Logger::LogPrint("TestShell", __func__, "erase_range start");
+    if (start_address > end_address)
+        std::swap(start_address, end_address);
+    int size = (end_address - start_address) + 1;
+
+    runEraseCommand(start_address, size);
+    Logger::LogPrint("TestShell", __func__, "erase_range end");
+}
+
+void TestShell::flush() {
+    Logger::LogPrint("TestShell", __func__, "flush start");
+    driver->flush();
+    Logger::LogPrint("TestShell", __func__, "flush end");
+}
+
+void TestShell::Script1() {
+    Logger::LogPrint("TestShell", __func__, "Script1 start");
+    for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
+        writeFive(loopCnt);
+        if (readCompareFive(loopCnt) == false) {
+            out << "FAIL " << std::endl;
+            Logger::LogPrint("TestShell", __func__, "Script1 Fail");
+            return;
+        }
+    }
+    out << "PASS" << std::endl;
+    Logger::LogPrint("TestShell", __func__, "Script1 end");
+
+}
+
+void TestShell::Script2() {
+    Logger::LogPrint("TestShell", __func__, "Script2 start");
+    for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+
+        for (int idx = 0; idx < 5; ++idx) {
+            unsigned int address = Script2_Address[idx];    
+            write(address, data);
+        }
+
+        for (unsigned int address = 0; address < 5; ++address) {
+            unsigned int expectedValue = data;
+            if (readCompare({ address }, expectedValue) == false) {
+                out << "FAIL " << std::endl;
+                Logger::LogPrint("TestShell", __func__, "Script2 Fail");
+                return;
+            }
+        }
+    }
+    out << "PASS" << std::endl;
+    Logger::LogPrint("TestShell", __func__, "Script2 end");
+}
+
+void TestShell::Script3(){
+    Logger::LogPrint("TestShell", __func__, "Script3 start");
+    for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
+        srand(RAND_SEED + loop);
+        unsigned int randomData = (std::rand() << 16) | std::rand();
+        driver->write(ADDRESS_RANGE_MIN, randomData);
+        driver->write(99, randomData);
+
+        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
+            out << "FAIL " << std::endl;
+            Logger::LogPrint("TestShell", __func__, "Script3 Fail");
+            return;
+        }
+            
+    }
+    out << "PASS" << std::endl;
+    Logger::LogPrint("TestShell", __func__, "Script3 end");
+}
+
+void TestShell::Script4() {
+    Logger::LogPrint("TestShell", __func__, "Script4 start");
+    driver->erase(0, 3);
+    for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
+        unsigned int data = Script2Test_Value + loopCnt;
+        for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
+            driver->write(base_addr, data);
+            if (!readCompare(base_addr, data)) {
+                out << "FAIL " << std::endl;
+                Logger::LogPrint("TestShell", __func__, "Script4 Fail");
+            }
+            driver->write(base_addr, data+1);
+            if (!readCompare(base_addr, data + 1)) {
+                out << "FAIL " << std::endl;
+                Logger::LogPrint("TestShell", __func__, "Script4 Fail");
+            }
+            driver->erase(base_addr, 3);
+            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
+                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
+                    out << "FAIL " << std::endl;
+                    Logger::LogPrint("TestShell", __func__, "Script4 Fail");
+                    return;
+                }
+            }
+        }
+    }
+    out << "PASS" << std::endl;
+    Logger::LogPrint("TestShell", __func__, "Script4 end");
 }
 
 void TestShell::runEraseCommand(unsigned int address, int size)
@@ -92,87 +205,6 @@ void TestShell::runEraseCommand(unsigned int address, int size)
     }
     if (size > 0)
         driver->erase(address, size);
-}
-
-void TestShell::erase_range(unsigned int start_address, unsigned int end_address) {
-    if (start_address > end_address)
-        std::swap(start_address, end_address);
-    int size = (end_address - start_address) + 1;
-
-    runEraseCommand(start_address, size);
-}
-
-void TestShell::flush() {
-    driver->flush();
-}
-
-void TestShell::Script1() {
-    for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
-        writeFive(loopCnt);
-        if (readCompareFive(loopCnt) == false) {
-            out << "FAIL " << std::endl;
-            return;
-        }
-    }
-    out << "PASS" << std::endl;
-
-}
-
-void TestShell::Script2() {
-    for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
-        unsigned int data = Script2Test_Value + loopCnt;
-
-        for (int idx = 0; idx < 5; ++idx) {
-            unsigned int address = Script2_Address[idx];    
-            write(address, data);
-        }
-
-        for (unsigned int address = 0; address < 5; ++address) {
-            unsigned int expectedValue = data;
-            if (readCompare({ address }, expectedValue) == false) {
-                out << "FAIL " << std::endl;
-                return;
-            }
-        }
-    }
-    out << "PASS" << std::endl;
-}
-
-void TestShell::Script3(){
-    for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
-        srand(RAND_SEED + loop);
-        unsigned int randomData = (std::rand() << 16) | std::rand();
-        driver->write(ADDRESS_RANGE_MIN, randomData);
-        driver->write(99, randomData);
-
-        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
-            out << "FAIL " << std::endl;
-            return;
-        }
-            
-    }
-    out << "PASS" << std::endl;
-}
-
-void TestShell::Script4() {
-    driver->erase(0, 3);
-    for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
-        unsigned int data = Script2Test_Value + loopCnt;
-        for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
-            driver->write(base_addr, data);
-            if (!readCompare(base_addr, data)) out << "FAIL " << std::endl;
-            driver->write(base_addr, data+1);
-            if (!readCompare(base_addr, data+1)) out << "FAIL " << std::endl;
-            driver->erase(base_addr, 3);
-            for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
-                if (!readCompare(base_addr + erase_addr, 0x00000000)) {
-                    out << "FAIL " << std::endl;
-                    return;
-                }
-            }
-        }
-    }
-    out << "PASS" << std::endl;
 }
 
 void TestShell::writeFive(int loopCnt){

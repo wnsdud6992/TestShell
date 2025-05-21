@@ -61,3 +61,12 @@ constexpr int Script4_TotalLoopCount = 30;
 constexpr unsigned int Script4Test_Value = 0x1289CDEF;
 constexpr unsigned int Script4_StartAddress = 2;
 constexpr unsigned int Script4_EndAddress = 96;
+
+
+enum class driverType {
+    SSD,
+    HDD,
+    SD_Card,
+    eMMC,
+    Mock,
+};

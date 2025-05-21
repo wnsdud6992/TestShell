@@ -7,7 +7,8 @@ using namespace testing;
 class WriteFixture : public Test {
 public:
 	MockDriver mockdriver;
-	TestShell testshell{ &mockdriver };
+	std::unique_ptr<MockDriver> driver = std::make_unique<MockDriver>();
+	std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(std::move(driver));
 	const unsigned int NORMAL_ADDRESS = 3;
 	const unsigned int NORMAL_DATA = 0xAAAABBBB;
 	const unsigned int MAX_LBA = 100 - 1;
@@ -19,7 +20,7 @@ public:
 
 TEST_F(WriteFixture, NormalWritePass) {
 	EXPECT_CALL(mockdriver, write(NORMAL_ADDRESS, NORMAL_DATA)).Times(1);
-	testshell.write(NORMAL_ADDRESS, NORMAL_DATA);
+	testShell->write(NORMAL_ADDRESS, NORMAL_DATA);
 }
 //TEST_F(WriteFixture, InvaildCommandFail) {
 //  EXPECT_THROW(testshell.CheckWriteParamValid(arg_missing_param), CustomException);
@@ -31,5 +32,5 @@ TEST_F(WriteFixture, FullWritePass) {
 	for (unsigned int address_index = 0; address_index <= MAX_LBA; address_index++) {
 		EXPECT_CALL(mockdriver, write(address_index, NORMAL_DATA)).Times(1);
 	}
-	testshell.fullwrite(NORMAL_DATA);
+	testShell->fullwrite(NORMAL_DATA);
 }
