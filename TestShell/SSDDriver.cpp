@@ -1,34 +1,30 @@
 ﻿#include "SSDDriver.h"
 
-void SSDDriver::runFunc(const std::string option, unsigned int param1 = 0, unsigned int param2 = 0)
+void SSDDriver::runFunc(const std::string cmd_digit, const unsigned int param1 = 0, const  unsigned int param2 = 0)
 {
 	const unsigned int address = param1;
 	const unsigned int address2 = param2;
 	const unsigned int value = param2;
 	std::ostringstream oss;
-	oss << option << " ";
-	if (option == "W") {
-		oss << address << " ";
-		oss << toHexString(value);
+	oss << "\"" << SSDexe_Path << "\" " << cmd_digit << " ";
+	if (cmd_digit == "W") {
+		oss << address << " " << toHexString(value);
 	}
-	else if (option == "R") {
+	else if (cmd_digit == "R") {
 		oss << address << " ";
 	}
-	else if (option == "E") {
-		oss << address << " ";
-		oss << address2;
+	else if (cmd_digit == "E") {
+		oss << address << " " << address2;
 
 	}
-	else if (option == "F") {
+	else if (cmd_digit == "F") {
 		; //nothing
 	}
 	else {
 		throw CustomException("undefined command for call SSD.exe run");
 	}
 
-	std::string command = "\"" + SSDexe_Path + "\" " + oss.str();
-	std::cout << "Command: " << command << std::endl;  // Todo. 추후 제거
-	int result = std::system(command.c_str());
+	std::system(oss.str().c_str());
 }
 
 void SSDDriver::write(unsigned int address, unsigned int value) {
@@ -77,10 +73,10 @@ unsigned int SSDDriver::readSSDOutputFile() {
 		result_readvalue = std::stoul(readvalue, nullptr, 0);
 	}
 	catch (const std::invalid_argument&) {
-		std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << readvalue << std::endl;
+		throw CustomException((std::string("[Error] 숫자로 변환할 수 없는 문자열: ") + readvalue).c_str());
 	}
 	catch (const std::out_of_range&) {
-		std::cerr << "[Error] 숫자가 너무 큽니다: " << readvalue << std::endl;
+		throw CustomException((std::string("[Error] 숫자가 너무 큽니다: ") + readvalue).c_str());
 	}
 
 	return result_readvalue;

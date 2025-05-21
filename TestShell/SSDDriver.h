@@ -12,7 +12,7 @@ public:
 	void setoutput(std::ostream* output) override;
 
 private:
-	void runFunc(const std::string option, unsigned int param1, unsigned int param2);
+	void runFunc(const std::string option, const unsigned int param1, const unsigned int param2);
 	unsigned int readSSDOutputFile();
 	std::ostream* out;
 };
