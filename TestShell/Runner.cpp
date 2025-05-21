@@ -15,6 +15,7 @@ void Runner::runFromFile(const std::string& filepath) {
         std::cout << line << " ---  Run....";
         bool result = handleCommand(line);
         std::cout << (result ? "Pass" : "FAIL!") << std::endl;
+        if (!result) return;
     }
 }
 
