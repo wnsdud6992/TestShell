@@ -222,7 +222,6 @@ bool TestShell::Script4() {
     driver->erase(0, 3);
     for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
-
         for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
             driver->write(base_addr, data);
             if (!readCompare(base_addr, data)) return false;
