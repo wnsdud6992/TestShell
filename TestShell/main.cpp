@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<IDriver> userDriver;
     while (true) {
         std::cout << "What kind of driver do you want to test?" << std::endl;
-        std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
+        std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC   5.Mock" << std::endl << std::endl;
         std::cout << "Shell> ";
         std::getline(std::cin, InputDriverType);
         userDriver = DriverFactory::driverFactory(InputDriverType);
