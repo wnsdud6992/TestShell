@@ -19,22 +19,24 @@ int main(int argc, char* argv[]) {
     runnerSsdDriver.setoutput(&dummyOut);
     TestShell runnerTestShell(&runnerSsdDriver, dummyOut);
     std::unique_ptr<Runner> runner = std::make_unique<Runner>(&runnerTestShell);
-    std::unique_ptr<TestShellCommandFactory> testShellCmdFactory = std::make_unique<TestShellCommandFactory>(testShell);
+
+
+    std::unique_ptr<CommandFactory> CmdFactory = std::make_unique<CommandFactory>();
 
     std::string userInput;
-
     if (argc == 2) {
         std::string runCommand = argv[1];
         runner->runFromFile(runCommand);
         return 0;
     }
 
-
     while (true) {
         std::cout << "Shell> ";
+        std::getline(std::cin, userInput);
+
         try {
-            std::getline(std::cin, userInput);
-            testShellCmdFactory->executeCommand(userInput);
+            auto command = CmdFactory->parse(userInput);
+            command->execute(*testShell);
         }
         catch (const CustomException& e) {
             std::cout << e.what() << std::endl;

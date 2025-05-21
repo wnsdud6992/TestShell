@@ -30,82 +30,15 @@ void TestShell::help() {
     out << std::endl;
 }
 
-std::pair<std::string, std::string> TestShell::commandParsing(const std::string& param) {
-    std::string parameter = "";
-    std::string command;
-    std::istringstream iss(param);
-
-    iss >> command;
-    std::getline(iss, parameter);
-
-    return { command, parameter };
-}
-
-std::pair<unsigned int, int> TestShell::EraseParamParsing(const std::string& parameter) {
-    unsigned int LBA;
-    int size;
-    std::istringstream iss(parameter);
-
-    std::string param;
-    std::vector<std::string> paramList;
-
-    while (iss >> param) {
-        paramList.push_back(param);
-    }
-
-    if (paramList.size() >= 3) {
-        throw CustomException("Error: Too many parameters! Only two allowed.");
-    }
-    else {
-        LBA = std::stoul(paramList[0], nullptr, 0);
-        size = std::stoi(paramList[1]);
-    }
-
-    return { LBA, size };
-}
-
-std::vector<unsigned int> TestShell::normalParamParsing(const std::string& param) {
-    std::vector<unsigned int> parameter;
-
-    std::istringstream iss(param);
-    std::string token;
-    while (iss >> token) {
-        parameter.push_back(std::stoul(token, nullptr, 0));
-    }
-    return parameter;
-}
-
-std::pair<unsigned int, unsigned int > TestShell::CheckWriteParamValid(const std::vector<unsigned int> &command_param) {
-    if (command_param.size() != 2) {
-        throw CustomException("write command argument error");
-    }
-    return { command_param[0], command_param[1] };
-}
-
 void TestShell::write(unsigned int address, unsigned int data){
     Logger::LogPrint("TestShell", __func__, "Write ½ÃÀÛ!!!");
 	driver->write(address, data);
-}
-
-unsigned int TestShell::CheckFullWriteParamValid(const std::vector<unsigned int>& command_param) {
-    if (command_param.size() != 1) {
-        throw CustomException("write command argument error");
-    }
-    return command_param[0];
 }
 
 void TestShell::fullwrite(unsigned int data) {
     for(unsigned int address_index = ADDRESS_RANGE_MIN; address_index <= ADDRESS_RANGE_MAX; address_index++){
         driver->write(address_index, data);
     }
-}
-
-unsigned int TestShell::CheckReadParamValid(const std::vector<unsigned int>& param) {
-    if (param.size() != 1)
-        throw CustomException("read command argument error");
-    if (param[0] < 0 || param[0] > 99)
-        throw CustomException("address size error");
-    return param[0];
 }
 
 unsigned int TestShell::read(unsigned int address) {
@@ -143,7 +76,6 @@ void TestShell::erase(unsigned int address, int size) {
         }
         address = calcAddress;
     }
-
     runEraseCommand(address, size);
 }
 
@@ -178,36 +110,33 @@ void TestShell::Script1() {
     for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
         writeFive(loopCnt);
         if (readCompareFive(loopCnt) == false) {
-            return;
+            out << "FAIL " << std::endl;
         }
     }
     out << "PASS" << std::endl;
+
 }
 
-bool TestShell::Script2() {
+void TestShell::Script2() {
     for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
 
         for (int idx = 0; idx < 5; ++idx) {
             unsigned int address = Script2_Address[idx];    
-            writeWithNewParam(address, data);
+            write(address, data);
         }
 
         for (unsigned int address = 0; address < 5; ++address) {
             unsigned int expectedValue = data;
-            if (readCompare({ address }, expectedValue)) {
-                out << "PASS" << std::endl;
-            }
-            else {
-                out << "FAIL " << loopCnt;
-                return false;
+            if (readCompare({ address }, expectedValue) == false) {
+                out << "FAIL " << std::endl;
             }
         }
     }
-    return true;
+    out << "PASS" << std::endl;
 }
 
-bool TestShell::Script3(){
+void TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
@@ -215,38 +144,30 @@ bool TestShell::Script3(){
         driver->write(99, randomData);
 
         if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
-            return false;
+            out << "FAIL " << std::endl;
     }
-    return true;
+    out << "PASS" << std::endl;
 }
 
-bool TestShell::Script4() {
+void TestShell::Script4() {
     driver->erase(0, 3);
     for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
 
         for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
             driver->write(base_addr, data);
-            if (!readCompare(base_addr, data)) return false;
+            if (!readCompare(base_addr, data)) out << "FAIL " << std::endl;
             driver->write(base_addr, data+1);
-            if (!readCompare(base_addr, data+1)) return false;
+            if (!readCompare(base_addr, data+1)) out << "FAIL " << std::endl;
             driver->erase(base_addr, 3);
             for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
                 if (!readCompare(base_addr + erase_addr, 0x00000000)) {
-                    return false;
+                    out << "FAIL " << std::endl;
                 }
             }
         }
     }
-    return true;
-}
-
-void TestShell::writeWithNewParam(unsigned int address, unsigned int writevalue){
-    write(address, writevalue);
-}
-
-unsigned int TestShell::readWithNewParam(unsigned int address) {
-    return read(address);
+    out << "PASS" << std::endl;
 }
 
 void TestShell::writeFive(int loopCnt){
