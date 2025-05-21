@@ -218,16 +218,15 @@ void TestShell::runEraseCommand(unsigned int address, int size)
 
 void TestShell::writeFive(int loopCnt){
     for (int iter = 0; iter < Script1_OnceLoopCount; iter++) {
-        unsigned int address = loopCnt + iter;
+        unsigned int address = loopCnt * Script1_OnceLoopCount + iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
-
         write(address, expectedValue);
     }
 }
 
 bool TestShell::readCompareFive(int loopCnt) {
     for (int iter = 0; iter < Script1_OnceLoopCount; iter++) {
-        unsigned int address = loopCnt + iter;
+        unsigned int address = loopCnt * Script1_OnceLoopCount + iter;
         unsigned int expectedValue = ScriptTest_Value + loopCnt;
         if (read(address) != expectedValue) {
             out << "FAIL";

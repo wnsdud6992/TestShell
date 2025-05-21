@@ -31,7 +31,6 @@ public:
 		switch (Type) {
 		case driverType::SSD:
 			return std::make_unique<SSDDriver>();
-		
 		case driverType::HDD:
 			return std::make_unique<HDDDriver>();
 		case driverType::SD_Card:
