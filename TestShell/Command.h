@@ -31,10 +31,10 @@ public:
                 parameter.push_back(std::stoul(token, nullptr, 0));
             }
             catch (const std::invalid_argument&) {
-                std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << args << std::endl;
+                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
             }
             catch (const std::out_of_range&) {
-                std::cerr << "[Error] 숫자가 너무 큽니다: " << args << std::endl;
+                throw CustomException("[Error] 숫자가 너무 큽니다");
             }
         }
         if (parameter.size() != 1)
@@ -73,10 +73,10 @@ public:
                 parameter.push_back(std::stoul(token, nullptr, 0));
             }
             catch (const std::invalid_argument&) {
-                std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << args << std::endl;
+                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
             }
             catch (const std::out_of_range&) {
-                std::cerr << "[Error] 숫자가 너무 큽니다: " << args << std::endl;
+                throw CustomException("[Error] 숫자가 너무 큽니다");
             }
         }
         if (parameter.size() != 2) {
@@ -106,10 +106,10 @@ public:
                 parameter.push_back(std::stoul(token, nullptr, 0));
             }
             catch (const std::invalid_argument&) {
-                std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << args << std::endl;
+                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
             }
             catch (const std::out_of_range&) {
-                std::cerr << "[Error] 숫자가 너무 큽니다: " << args << std::endl;
+                throw CustomException("[Error] 숫자가 너무 큽니다");
             }
         }
         if (parameter.size() != 1) {
@@ -141,23 +141,14 @@ public:
         }
 
         try {
+            address = std::stoul(paramList[0], nullptr, 0);
             size = std::stoi(paramList[1]);
         }
         catch (const std::invalid_argument&) {
-            std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << paramList[1] << std::endl;
+            throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
         }
         catch (const std::out_of_range&) {
-            std::cerr << "[Error] 숫자가 너무 큽니다: " << paramList[1] << std::endl;
-        }
-
-        try {
-            address = std::stoul(paramList[0], nullptr, 0);
-        }
-        catch (const std::invalid_argument&) {
-            std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << paramList[0] << std::endl;
-        }
-        catch (const std::out_of_range&) {
-            std::cerr << "[Error] 숫자가 너무 큽니다: " << paramList[0] << std::endl;
+            throw CustomException("[Error] 숫자가 너무 큽니다");
         }
     }
 
@@ -180,10 +171,10 @@ public:
                 parameter.push_back(std::stoul(token, nullptr, 0));
             }
             catch (const std::invalid_argument&) {
-                std::cerr << "[Error] 숫자로 변환할 수 없는 문자열: " << args << std::endl;
+                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
             }
             catch (const std::out_of_range&) {
-                std::cerr << "[Error] 숫자가 너무 큽니다: " << args << std::endl;
+                throw CustomException("[Error] 숫자가 너무 큽니다");
             }
         }
         if (parameter.size() != 2) {

@@ -111,6 +111,7 @@ void TestShell::Script1() {
         writeFive(loopCnt);
         if (readCompareFive(loopCnt) == false) {
             out << "FAIL " << std::endl;
+            return;
         }
     }
     out << "PASS" << std::endl;
@@ -130,6 +131,7 @@ void TestShell::Script2() {
             unsigned int expectedValue = data;
             if (readCompare({ address }, expectedValue) == false) {
                 out << "FAIL " << std::endl;
+                return;
             }
         }
     }
@@ -143,8 +145,11 @@ void TestShell::Script3(){
         driver->write(ADDRESS_RANGE_MIN, randomData);
         driver->write(99, randomData);
 
-        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData)))
+        if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
             out << "FAIL " << std::endl;
+            return;
+        }
+            
     }
     out << "PASS" << std::endl;
 }
@@ -162,6 +167,7 @@ void TestShell::Script4() {
             for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
                 if (!readCompare(base_addr + erase_addr, 0x00000000)) {
                     out << "FAIL " << std::endl;
+                    return;
                 }
             }
         }
