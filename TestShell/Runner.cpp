@@ -15,30 +15,26 @@ void Runner::runFromFile(const std::string& filepath) {
         std::cout << line << " ---  Run....";
         bool result = handleCommand(line);
         std::cout << (result ? "Pass" : "FAIL!") << std::endl;
+        if (!result) return;
     }
 }
 
 bool Runner::handleCommand(const std::string& command) {
     try {
         if (command == "1_FullWriteAndReadCompare") {
-            shell->Script1();
-            return true;
+            return shell->Script1();
         }
         else if (command == "2_PartialLBAWrite") {
-            shell->Script2();
-            return true;
+            return shell->Script2();
         }
         else if (command == "3_WriteReadAging") {
-            shell->Script3();
-            return true;
+            return shell->Script3();
         }
         else if (command == "4_EraseAndWriteAging") {
-            shell->Script4();
-            return true;
+            return shell->Script4();
         }
     }
     catch (...) {
     }
-
     return false;
 }

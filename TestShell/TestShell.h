@@ -14,10 +14,10 @@ public:
 	void erase(unsigned int adress, int size);
 	void erase_range(unsigned int start_address, unsigned int end_address);
 	void flush();
-	void Script1();
-	void Script2();
-	void Script3();
-	void Script4();
+	bool Script1();
+	bool Script2();
+	bool Script3();
+	bool Script4();
 
 	bool readCompare(unsigned int address, unsigned int value);
 

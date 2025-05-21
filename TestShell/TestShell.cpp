@@ -7,25 +7,25 @@ using namespace testing;
 TestShell::TestShell(std::unique_ptr<IDriver> driver_, std::ostream& output_) : driver{std::move(driver_)}, out(output_) {}
 
 void TestShell::help() {
-    out << "\nÆÀ¸í : Critical Coders\n";
-    out << "Á¦ÀÛÀÚ : ÃÖÁØ¿µ, ¾ÈÁö¼ö, Á¶Èñ¼º, ÀÌ¾Æ³×½º, ¼Õ¹Î±â, Á¶È¿Áø\n\n";
+    out << "\níŒ€ëª… : Critical Coders\n";
+    out << "ì œì‘ì : ìµœì¤€ì˜, ì•ˆì§€ìˆ˜, ì¡°í¬ì„±, ì´ì•„ë„¤ìŠ¤, ì†ë¯¼ê¸°, ì¡°íš¨ì§„\n\n";
 
-    out << "Æ¯Á¤ ¸í·É¾î¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ ³»¿ëÀÌ ÇÊ¿äÇÏ¸é HELP <¸í·É¾î ÀÌ¸§>À» ÀÔ·ÂÇÏ½Ê½Ã¿À.\n\n";
+    out << "íŠ¹ì • ëª…ë ¹ì–´ì— ëŒ€í•œ ìì„¸í•œ ë‚´ìš©ì´ í•„ìš”í•˜ë©´ HELP <ëª…ë ¹ì–´ ì´ë¦„>ì„ ì…ë ¥í•˜ì‹­ì‹œì˜¤.\n\n";
 
-    out << "±âº» ¸í·É¾î:\n";
+    out << "ê¸°ë³¸ ëª…ë ¹ì–´:\n";
     out << std::left;
-    out << "  " << std::setw(20) << "Write" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
-    out << "  " << std::setw(20) << "Read" << "ÀÔ·Â¹ŞÀº ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n";
-    out << "  " << std::setw(20) << "fullwrite" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ÀúÀåÇÕ´Ï´Ù.\n";
-    out << "  " << std::setw(20) << "fullread" << "°ü¸®ÇÏ°í ÀÖ´Â ¸ğµç ÁÖ¼Ò¿¡ ÀúÀåµÇ¾î ÀÖ´Â °ªÀ» ÀĞ¾î¿É´Ï´Ù.\n\n";
+    out << "  " << std::setw(20) << "Write" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
+    out << "  " << std::setw(20) << "Read" << "ì…ë ¥ë°›ì€ ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n";
+    out << "  " << std::setw(20) << "fullwrite" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì €ì¥í•©ë‹ˆë‹¤.\n";
+    out << "  " << std::setw(20) << "fullread" << "ê´€ë¦¬í•˜ê³  ìˆëŠ” ëª¨ë“  ì£¼ì†Œì— ì €ì¥ë˜ì–´ ìˆëŠ” ê°’ì„ ì½ì–´ì˜µë‹ˆë‹¤.\n\n";
 
-    out << "Å×½ºÆ® ¸í·É¾î:\n";
+    out << "í…ŒìŠ¤íŠ¸ ëª…ë ¹ì–´:\n";
     out << "  " << std::setw(30) << "1_FullWriteAndReadCompare"
-        << "¸ğµç ÁÖ¼Ò¿¡ ÀÔ·Â¹ŞÀº °ªÀ» ¾´ µÚ ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "ëª¨ë“  ì£¼ì†Œì— ì…ë ¥ë°›ì€ ê°’ì„ ì“´ ë’¤ ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
     out << "  " << std::setw(30) << "2_PartialLBAWrite"
-        << "Æ¯Á¤ ÁÖ¼Òµé¿¡ ÀÔ·Â¹ŞÀº °ªÀ» µ¿ÀÏÇÏ°Ô ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "íŠ¹ì • ì£¼ì†Œë“¤ì— ì…ë ¥ë°›ì€ ê°’ì„ ë™ì¼í•˜ê²Œ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
     out << "  " << std::setw(30) << "3_WriteReadAging"
-        << "Æ¯Á¤ ÁÖ¼Ò¿¡ ·£´ıÇÑ °ªÀ» ¾²°í ´Ù½Ã ÀĞ¾î¿Í ºñ±³ÇØº»´Ù.\n";
+        << "íŠ¹ì • ì£¼ì†Œì— ëœë¤í•œ ê°’ì„ ì“°ê³  ë‹¤ì‹œ ì½ì–´ì™€ ë¹„êµí•´ë³¸ë‹¤.\n";
 
     out << std::endl;
 }
@@ -105,23 +105,24 @@ void TestShell::flush() {
     Logger::LogPrint("TestShell", __func__, "flush end");
 }
 
-void TestShell::Script1() {
+bool TestShell::Script1() {
     Logger::LogPrint("TestShell", __func__, "Script1 start");
     for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
         writeFive(loopCnt);
         if (readCompareFive(loopCnt) == false) {
             out << "FAIL " << std::endl;
             Logger::LogPrint("TestShell", __func__, "Script1 Fail");
-            return;
+            return false;
         }
     }
     out << "PASS" << std::endl;
     Logger::LogPrint("TestShell", __func__, "Script1 end");
-
+    return true;
 }
 
-void TestShell::Script2() {
+bool TestShell::Script2() {
     Logger::LogPrint("TestShell", __func__, "Script2 start");
+  
     for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
 
@@ -135,16 +136,18 @@ void TestShell::Script2() {
             if (readCompare({ address }, expectedValue) == false) {
                 out << "FAIL " << std::endl;
                 Logger::LogPrint("TestShell", __func__, "Script2 Fail");
-                return;
+                return false;
             }
         }
     }
     out << "PASS" << std::endl;
     Logger::LogPrint("TestShell", __func__, "Script2 end");
+    return true;
 }
 
-void TestShell::Script3(){
+bool TestShell::Script3(){
     Logger::LogPrint("TestShell", __func__, "Script3 start");
+
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
@@ -154,16 +157,18 @@ void TestShell::Script3(){
         if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
             out << "FAIL " << std::endl;
             Logger::LogPrint("TestShell", __func__, "Script3 Fail");
-            return;
+            return false;
         }
             
     }
     out << "PASS" << std::endl;
     Logger::LogPrint("TestShell", __func__, "Script3 end");
+    return true;
 }
 
-void TestShell::Script4() {
+bool TestShell::Script4() {
     Logger::LogPrint("TestShell", __func__, "Script4 start");
+
     driver->erase(0, 3);
     for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
@@ -172,24 +177,27 @@ void TestShell::Script4() {
             if (!readCompare(base_addr, data)) {
                 out << "FAIL " << std::endl;
                 Logger::LogPrint("TestShell", __func__, "Script4 Fail");
+                return false;
             }
             driver->write(base_addr, data+1);
             if (!readCompare(base_addr, data + 1)) {
                 out << "FAIL " << std::endl;
                 Logger::LogPrint("TestShell", __func__, "Script4 Fail");
+                return false;
             }
             driver->erase(base_addr, 3);
             for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
                 if (!readCompare(base_addr + erase_addr, 0x00000000)) {
                     out << "FAIL " << std::endl;
                     Logger::LogPrint("TestShell", __func__, "Script4 Fail");
-                    return;
+                    return false;
                 }
             }
         }
     }
     out << "PASS" << std::endl;
     Logger::LogPrint("TestShell", __func__, "Script4 end");
+    return true;
 }
 
 void TestShell::runEraseCommand(unsigned int address, int size)
@@ -205,6 +213,7 @@ void TestShell::runEraseCommand(unsigned int address, int size)
     }
     if (size > 0)
         driver->erase(address, size);
+
 }
 
 void TestShell::writeFive(int loopCnt){
