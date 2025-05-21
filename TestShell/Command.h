@@ -27,15 +27,7 @@ public:
         std::istringstream iss(args);
         std::string token;
         while (iss >> token) {
-            try {
-                parameter.push_back(std::stoul(token, nullptr, 0));
-            }
-            catch (const std::invalid_argument&) {
-                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
-            }
-            catch (const std::out_of_range&) {
-                throw CustomException("[Error] 숫자가 너무 큽니다");
-            }
+            parameter.push_back(stringToUint(token));
         }
         if (parameter.size() != 1)
             throw CustomException("read command argument error\n");
@@ -69,15 +61,7 @@ public:
         std::istringstream iss(args);
         std::string token;
         while (iss >> token) {
-            try {
-                parameter.push_back(std::stoul(token, nullptr, 0));
-            }
-            catch (const std::invalid_argument&) {
-                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
-            }
-            catch (const std::out_of_range&) {
-                throw CustomException("[Error] 숫자가 너무 큽니다");
-            }
+            parameter.push_back(stringToUint(token));
         }
         if (parameter.size() != 2) {
             throw CustomException("write command argument error\n");
@@ -102,15 +86,7 @@ public:
         std::istringstream iss(args);
         std::string token;
         while (iss >> token) {
-            try {
-                parameter.push_back(std::stoul(token, nullptr, 0));
-            }
-            catch (const std::invalid_argument&) {
-                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
-            }
-            catch (const std::out_of_range&) {
-                throw CustomException("[Error] 숫자가 너무 큽니다");
-            }
+            parameter.push_back(stringToUint(token));
         }
         if (parameter.size() != 1) {
             throw CustomException("Fullwrite command argument error\n");
@@ -140,16 +116,8 @@ public:
             throw CustomException("Erase command argument error\n");
         }
 
-        try {
-            address = std::stoul(paramList[0], nullptr, 0);
-            size = std::stoi(paramList[1]);
-        }
-        catch (const std::invalid_argument&) {
-            throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
-        }
-        catch (const std::out_of_range&) {
-            throw CustomException("[Error] 숫자가 너무 큽니다");
-        }
+        address = stringToUint(paramList[0]);
+        size = stringToUint(paramList[1]);
     }
 
     void execute(TestShell& testshell) override {
@@ -167,15 +135,7 @@ public:
         std::istringstream iss(args);
         std::string token;
         while (iss >> token) {
-            try {
-                parameter.push_back(std::stoul(token, nullptr, 0));
-            }
-            catch (const std::invalid_argument&) {
-                throw CustomException("[Error] 숫자로 변환할 수 없는 문자열\n");
-            }
-            catch (const std::out_of_range&) {
-                throw CustomException("[Error] 숫자가 너무 큽니다");
-            }
+            parameter.push_back(stringToUint(token));
         }
         if (parameter.size() != 2) {
             throw CustomException("Erase_range command argument error\n");
