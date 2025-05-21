@@ -26,19 +26,21 @@ int main(int argc, char* argv[]) {
     }
 
     /* Normal mode */
+    std::string InputDriverType = "";
     std::unique_ptr<IDriver> userDriver;
     while (true) {
         std::cout << "What kind of driver do you want to test?" << std::endl;
         std::cout << "1.SSD   2.HDD   3.SD Card   4.eMMC" << std::endl << std::endl;
-        std::string driverType = "";
-        std::getline(std::cin, driverType);
-        userDriver = DriverFactory::driverFactory(driverType);
+        std::cout << "Shell> ";
+        std::getline(std::cin, InputDriverType);
+        userDriver = DriverFactory::driverFactory(InputDriverType);
         if (userDriver != nullptr) break;
     }
 
     std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(std::move(userDriver));
     std::unique_ptr<CommandFactory> CmdFactory = std::make_unique<CommandFactory>();
 
+    std::cout << "TestShell Start with "<< enumDriverTypeToStr[static_cast<driverType>(std::stoi(InputDriverType))] << "!!!" << std::endl << std::endl;
     std::string userInput;
     while (true) {
         std::cout << "Shell> ";

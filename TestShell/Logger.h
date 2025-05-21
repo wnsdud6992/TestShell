@@ -16,18 +16,12 @@ public:
     Logger& operator=(const Logger&) = delete;
 
     static void LogPrint(const std::string& className, const std::string& methodName, const std::string& detail);
-    
-    static std::string formatLogMessage(const std::string& className, const std::string& methodName, const std::string& detail);
-
-    static bool writeToFile(const std::string& text);
-
-    static void CheckLogFileToChange();
-
-    static void ZipOldestLogFile();
-
-    static void createLogFolder();
 
 private:
     Logger() {}   
-
+    static std::string formatLogMessage(const std::string& className, const std::string& methodName, const std::string& detail);
+    static bool writeToFile(const std::string& text);
+    static void CheckLogFileToChange();
+    static void ZipOldestLogFile();
+    static void createLogFolder();
 };
