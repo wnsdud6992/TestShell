@@ -23,7 +23,9 @@ void SSDDriver::setoutput(std::ostream* output){
 
 void SSDDriver::runSSDWithParam(const std::string& param) {
 	std::string command = "\"" + SSDexe_Path + "\" " + param;
-	std::cout << "Command: " << command << std::endl;  // Todo. 추후 제거
+	if (out) {
+		*out << "Command:" << command << std::endl;
+	}
 	int result = std::system(command.c_str());
 	// std::cout << "Exit code: " << result << std::endl;
 }

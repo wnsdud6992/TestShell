@@ -83,7 +83,6 @@ void Logger::ZipOldestLogFile() {
 
         try {
             std::filesystem::rename(oldestFile, renamed);
-            std::cout << "Renamed: " << oldestFile << " ¡æ " << renamed << '\n';
         }
         catch (const std::exception& e) {
             std::cerr << "Rename ½ÇÆÐ: " << e.what() << '\n';
