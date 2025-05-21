@@ -106,19 +106,19 @@ void TestShell::flush() {
     driver->flush();
 }
 
-void TestShell::Script1() {
+bool TestShell::Script1() {
     for (int loopCnt = 0; loopCnt < Script1_TotalLoopCount; ++loopCnt) {
         writeFive(loopCnt);
         if (readCompareFive(loopCnt) == false) {
             out << "FAIL " << std::endl;
-            return;
+            return false;
         }
     }
     out << "PASS" << std::endl;
-
+    return true;
 }
 
-void TestShell::Script2() {
+bool TestShell::Script2() {
     for (int loopCnt = 0; loopCnt < Script2_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
 
@@ -131,14 +131,15 @@ void TestShell::Script2() {
             unsigned int expectedValue = data;
             if (readCompare({ address }, expectedValue) == false) {
                 out << "FAIL " << std::endl;
-                return;
+                return false;
             }
         }
     }
     out << "PASS" << std::endl;
+    return true;
 }
 
-void TestShell::Script3(){
+bool TestShell::Script3(){
     for (int loop = 0; loop < Script3_TotalLoopCount; loop++) {
         srand(RAND_SEED + loop);
         unsigned int randomData = (std::rand() << 16) | std::rand();
@@ -147,32 +148,40 @@ void TestShell::Script3(){
 
         if (!(readCompare(ADDRESS_RANGE_MIN, randomData) && readCompare(ADDRESS_RANGE_MAX, randomData))) {
             out << "FAIL " << std::endl;
-            return;
+            return false;
         }
             
     }
     out << "PASS" << std::endl;
+    return true;
 }
 
-void TestShell::Script4() {
+bool TestShell::Script4() {
     driver->erase(0, 3);
     for (unsigned int loopCnt = 0; loopCnt < Script4_TotalLoopCount; loopCnt++) {
         unsigned int data = Script2Test_Value + loopCnt;
         for (unsigned int base_addr = Script4_StartAddress; base_addr <= Script4_EndAddress; base_addr += 2){
             driver->write(base_addr, data);
-            if (!readCompare(base_addr, data)) out << "FAIL " << std::endl;
+            if (!readCompare(base_addr, data)) {
+                out << "FAIL " << std::endl;
+                return false;
+            }
             driver->write(base_addr, data+1);
-            if (!readCompare(base_addr, data+1)) out << "FAIL " << std::endl;
+            if (!readCompare(base_addr, data + 1)) {
+                out << "FAIL " << std::endl;
+                return false;
+            }
             driver->erase(base_addr, 3);
             for (unsigned int erase_addr = 0; erase_addr < 3; ++erase_addr) {
                 if (!readCompare(base_addr + erase_addr, 0x00000000)) {
                     out << "FAIL " << std::endl;
-                    return;
+                    return false;
                 }
             }
         }
     }
     out << "PASS" << std::endl;
+    return true;
 }
 
 void TestShell::writeFive(int loopCnt){
