@@ -30,16 +30,28 @@ public:
         CommandMap["flush"] = [](const std::string& args) {
             return std::make_unique<FlushCommand>(args);
             };
-        CommandMap["Script1"] = [](const std::string& args) {
+        CommandMap["1_"] = [](const std::string& args) {
             return std::make_unique<Script1Command>(args);
             };
-        CommandMap["Script2"] = [](const std::string& args) {
+        CommandMap["1_FullWriteAndReadCompare"] = [](const std::string& args) {
+            return std::make_unique<Script1Command>(args);
+            };
+        CommandMap["2_"] = [](const std::string& args) {
             return std::make_unique<Script2Command>(args);
             };
-        CommandMap["Script3"] = [](const std::string& args) {
+        CommandMap["2_PartialLBAWrite"] = [](const std::string& args) {
+            return std::make_unique<Script2Command>(args);
+            };
+        CommandMap["3_"] = [](const std::string& args) {
             return std::make_unique<Script3Command>(args);
             };
-        CommandMap["Script4"] = [](const std::string& args) {
+        CommandMap["3_WriteReadAging"] = [](const std::string& args) {
+            return std::make_unique<Script3Command>(args);
+            };
+        CommandMap["4_"] = [](const std::string& args) {
+            return std::make_unique<Script4Command>(args);
+            };
+        CommandMap["4_EraseAndWriteAging"] = [](const std::string& args) {
             return std::make_unique<Script4Command>(args);
             };
     }

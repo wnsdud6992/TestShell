@@ -1,6 +1,7 @@
 #include "Logger.h"
 
 void Logger::LogPrint(const std::string& className, const std::string& methodName, const std::string& detail) {
+    createLogFolder();
     auto now = std::chrono::system_clock::now();
     std::time_t nowTime = std::chrono::system_clock::to_time_t(now);
     std::tm localTime{};
@@ -86,6 +87,17 @@ void Logger::ZipOldestLogFile() {
         }
         catch (const std::exception& e) {
             std::cerr << "Rename ½ÇÆÐ: " << e.what() << '\n';
+        }
+    }
+}
+
+void Logger::createLogFolder() {
+    if (!std::filesystem::exists(LogDir)) {
+        try {
+            std::filesystem::create_directories(LogDir);
+        }
+        catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "[Error] Log directory create failed : " << e.what() << '\n';
         }
     }
 }
