@@ -57,8 +57,8 @@ std::vector<unsigned int> TestShell::fullread() {
     out << "[Full Read: LBA 0 ~ 99]" << std::endl;
 
     for (unsigned int lba = 0; lba < 100; ++lba) {
+        out << " [LBA " << std::dec << lba << "] ";
         unsigned int data = driver->read(lba);
-        out << "[Read]" << " LBA " << lba << " : " << "0x" << std::setw(8) << std::setfill('0') << std::hex << data << std::endl;
         readDataList.push_back(data);
     }
     Logger::LogPrint("TestShell", __func__, "fullread end");
