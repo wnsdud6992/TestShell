@@ -12,33 +12,28 @@ void Runner::runFromFile(const std::string& filepath) {
 
     std::string line;
     while (std::getline(file, line)) {
-        std::cout << "Run....";
+        std::cout << line << " ---  Run....";
         bool result = handleCommand(line);
-        std::cout << (result ? "pass" : "fail") << std::endl;
+        std::cout << (result ? "Pass" : "FAIL!") << std::endl;
     }
 }
 
 bool Runner::handleCommand(const std::string& command) {
     try {
         if (command == "1_FullWriteAndReadCompare") {
-            shell->Script1();
-            return true;
+            return shell->Script1();
         }
         else if (command == "2_PartialLBAWrite") {
-            shell->Script2();
-            return true;
+            return shell->Script2();
         }
         else if (command == "3_WriteReadAging") {
-            shell->Script3();
-            return true;
+            return shell->Script3();
         }
-        //else if (command == "4_EraseAndWriteAging") {
-        //    shell.erase
-        //}
+        else if (command == "4_EraseAndWriteAging") {
+            return shell->Script4();
+        }
     }
     catch (...) {
-        // ½ÇÆÐ ½Ã catch
     }
-
     return false;
 }

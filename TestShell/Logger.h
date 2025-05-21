@@ -17,6 +17,8 @@ public:
 
     static void ZipOldestLogFile();
 
+    static void createLogFolder();
+
 private:
     Logger() {}
     
