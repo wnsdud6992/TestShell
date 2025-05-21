@@ -40,12 +40,12 @@ void Logger::CheckLogFileToChange() {
         localtime_s(&localTime, &t);
 
         std::ostringstream oss;
-        oss << "until_"
+        oss << LOG_PREFIX
             << std::put_time(&localTime, "%y%m%d_")
             << localTime.tm_hour << "h_"
             << localTime.tm_min << "m_"
             << localTime.tm_sec << "s"
-            << ".log";
+            << LOG_EXT;
 
 
         std::filesystem::path newLogPath = std::filesystem::path(LogDir) / oss.str();
@@ -68,7 +68,7 @@ void Logger::ZipOldestLogFile() {
         if (!entry.is_regular_file()) continue;
 
         std::string filename = entry.path().filename().string();
-        if (filename.starts_with("until_") && filename.ends_with(".log")) {
+        if (filename.starts_with(LOG_PREFIX) && filename.ends_with(LOG_EXT)) {
             untilLogs.push_back(entry);
         }
     }
@@ -80,7 +80,7 @@ void Logger::ZipOldestLogFile() {
 
         const auto& oldestFile = untilLogs.front().path();
         std::filesystem::path renamed = oldestFile;
-        renamed += ".zip";
+        renamed += ZIP_EXT;
 
         try {
             std::filesystem::rename(oldestFile, renamed);

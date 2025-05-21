@@ -1,6 +1,10 @@
 #pragma once
 #include "Common.h"
 
+constexpr const char* LOG_PREFIX = "until_";
+constexpr const char* LOG_EXT = ".log";
+constexpr const char* ZIP_EXT = ".zip";
+
 class Logger {
 public:
     static Logger& getInstance() {
@@ -20,6 +24,6 @@ public:
     static void createLogFolder();
 
 private:
-    Logger() {}
-    
+    Logger() {}   
+
 };
