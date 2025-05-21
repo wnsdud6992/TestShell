@@ -11,6 +11,7 @@
 #include <thread>
 #include <windows.h>
 #include <algorithm>
+#include <cstdlib>
 
 const std::string SSD_OutPutFile = "ssd_output.txt";
 const std::string LogDir = ".\\Log";

@@ -54,6 +54,9 @@ public:
         CommandMap["4_EraseAndWriteAging"] = [](const std::string& args) {
             return std::make_unique<Script4Command>(args);
             };
+        CommandMap["exit"] = [](const std::string& args) {
+            return std::make_unique<ExitCommand>(args);
+            };
     }
 
     std::unique_ptr<ICommand> parse(const std::string& input) {

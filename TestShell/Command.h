@@ -212,3 +212,13 @@ public:
         testshell.Script4();
     }
 };
+
+class ExitCommand : public ICommand {
+public:
+    ExitCommand(const std::string& args) {}
+
+    void execute(TestShell& testshell) override {
+        std::cout << "TestShell exit. Bye~" << std::endl;
+        exit(EXIT_SUCCESS);
+    }
+};
