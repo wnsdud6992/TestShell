@@ -23,7 +23,7 @@ void SSDDriver::runFunc(const std::string cmd_digit, const unsigned int param1 =
 	else {
 		throw CustomException("undefined command for call SSD.exe run");
 	}
-
+	Logger::LogPrint("TestShell", __func__, oss.str());
 	std::system(oss.str().c_str());
 }
 
@@ -55,7 +55,7 @@ unsigned int SSDDriver::readSSDOutputFile() {
 	std::ifstream inputFile(SSD_OutPutFile);
 
 	if (!inputFile) {
-		throw CustomException("파일을 열 수 없습니다");
+		throw CustomException((std::string("파일을 열 수 없습니다 : ") + SSD_OutPutFile).c_str());
 	}
 
 	std::string readvalue;
@@ -63,7 +63,7 @@ unsigned int SSDDriver::readSSDOutputFile() {
 		*out << "읽은 값: " << readvalue << std::endl;
 	}
 	else {
-		throw CustomException("파일에서 값을 읽을 수 없습니다.");
+		throw CustomException((std::string("파일에서 값을 읽을 수 없습니다. : ") + readvalue).c_str());
 	}
 
 	inputFile.close();
