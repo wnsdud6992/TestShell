@@ -28,7 +28,7 @@ std::string Logger::formatLogMessage(const std::string& className, const std::st
 bool Logger::writeToFile(const std::string& text) {
     std::ofstream logFile(LogDir + "\\" + LogFileName, std::ios::app);
     if (!logFile.is_open()) {
-        std::cerr << "로그 파일을 열 수 없습니다." << std::endl;
+        std::cerr << "로그 파일을 열 수 없습니다." << LogDir + "\\" + LogFileName << std::endl;
         return false;
     }
     logFile << text;

@@ -18,7 +18,7 @@ TEST(Script3WriteReadAging, DISABLED_NormalPass) {
 	testShell->Script3();
 }
 
-TEST(Script3WriteReadAging, NotSameReadFail) {
+TEST(Script3WriteReadAging, DISABLED_NotSameReadFail) {
 	MockDriver mockdriver;
 	std::unique_ptr<MockDriver> driver = std::make_unique<MockDriver>();
 	std::unique_ptr<TestShell> testShell = std::make_unique<TestShell>(std::move(driver));

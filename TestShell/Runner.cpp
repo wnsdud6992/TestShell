@@ -21,17 +21,20 @@ void Runner::runFromFile(const std::string& filepath) {
 
 bool Runner::handleCommand(const std::string& command) {
     try {
-        if (command == "1_FullWriteAndReadCompare") {
+        if (command == "1_FullWriteAndReadCompare" || command == "1_") {
             return shell->Script1();
         }
-        else if (command == "2_PartialLBAWrite") {
+        else if (command == "2_PartialLBAWrite" || command == "2_") {
             return shell->Script2();
         }
-        else if (command == "3_WriteReadAging") {
+        else if (command == "3_WriteReadAging" || command == "3_") {
             return shell->Script3();
         }
-        else if (command == "4_EraseAndWriteAging") {
+        else if (command == "4_EraseAndWriteAging" || command == "4_") {
             return shell->Script4();
+        }
+        else {
+            std::cout << "run time error (invaild script) : " << command << std::endl;
         }
     }
     catch (...) {
