@@ -11,15 +11,6 @@ public:
 	virtual void flush() = 0;
 };
 
-class HDD : public IDriver {
-public:
-	virtual void write(unsigned int address, unsigned int value) = 0;
-	virtual unsigned int read(unsigned int address) = 0;
-	virtual void setoutput(std::ostream* out) = 0;
-	virtual void erase(unsigned int address, unsigned int size) = 0;
-	virtual void flush() = 0;
-};
-
 class HDDDriver : public IDriver {
 public:
 	HDDDriver() {}
