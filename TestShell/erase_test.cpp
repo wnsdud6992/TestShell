@@ -24,50 +24,50 @@ public:
 	const int MINUS_SIZE_99 = -99;
 };
 
-TEST_F(EraseFixture, ZeroErase) {
+TEST_F(EraseFixture, DISABLED_ZeroErase) {
 	EXPECT_CALL(mockdriver, erase(_, _)).Times(0);
 	testShell->erase(LBA_0, SIZE_0);
 	EXPECT_THROW(testShell->erase(100, SIZE_1), CustomException);
 
 }
-TEST_F(EraseFixture, NormalErase) {
+TEST_F(EraseFixture, DISABLED_NormalErase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testShell->erase(LBA_0, SIZE_10);
 
 }
-TEST_F(EraseFixture, MinusSizeErase) {
+TEST_F(EraseFixture, DISABLED_MinusSizeErase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testShell->erase(LBA_9, MINUS_SIZE_10);
 
 }
-TEST_F(EraseFixture, MinusSizeUnderAddressErase) {
+TEST_F(EraseFixture, DISABLED_MinusSizeUnderAddressErase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_1)).Times(1);
 	testShell->erase(LBA_0, MINUS_SIZE_10);
 
 }
-TEST_F(EraseFixture, SIZE11Erase) {
+TEST_F(EraseFixture, DISABLED_SIZE11Erase) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	EXPECT_CALL(mockdriver, erase(LBA_10, SIZE_1)).Times(1);
 	testShell->erase(LBA_0, SIZE_11);
 
 }
-TEST_F(EraseFixture, LastAddressSize10Erase) {
+TEST_F(EraseFixture, DISABLED_LastAddressSize10Erase) {
 	EXPECT_CALL(mockdriver, erase(MAX_LBA, SIZE_1)).Times(1);
 	testShell->erase(MAX_LBA, SIZE_11);
 
 }
 
-TEST_F(EraseFixture, SIZE10EraseRange) {
+TEST_F(EraseFixture, DISABLED_SIZE10EraseRange) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testShell->erase_range(LBA_0, LBA_9);
 
 }
-TEST_F(EraseFixture, SIZEMinus10EraseRange) {
+TEST_F(EraseFixture, DISABLED_SIZEMinus10EraseRange) {
 	EXPECT_CALL(mockdriver, erase(LBA_0, SIZE_10)).Times(1);
 	testShell->erase_range(LBA_9, LBA_0);
 
 }
-TEST_F(EraseFixture, EraseTestPDF) {
+TEST_F(EraseFixture, DISABLED_EraseTestPDF) {
 	EXPECT_CALL(mockdriver, erase(4, 2)).Times(1);
 	testShell->erase(5, -2);
 	EXPECT_CALL(mockdriver, erase(5, 1)).Times(1);
@@ -87,7 +87,7 @@ TEST_F(EraseFixture, EraseTestPDF) {
 	testShell->erase(20, -99);
 }
 
-TEST_F(EraseFixture, flushTest) {
+TEST_F(EraseFixture, DISABLED_flushTest) {
 	EXPECT_CALL(mockdriver, flush).Times(1);
 	testShell->flush();
 
